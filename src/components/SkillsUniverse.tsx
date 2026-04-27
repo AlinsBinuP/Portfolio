@@ -51,6 +51,8 @@ export const SkillsUniverse = () => {
   const [hoveredSkill, setHoveredSkill] = useState<Skill | null>(null);
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
   const mouseRef = useRef({ x: 0, y: 0, isDown: false });
+  const hoveredSkillRef = useRef<Skill | null>(null);
+  const tooltipPosRef = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -116,7 +118,7 @@ export const SkillsUniverse = () => {
 
       // Draw Sun (Core)
       const sunGradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, 70);
-      sunGradient.addColorStop(0, '#60a5fa33');
+      sunGradient.addColorStop(0, 'rgba(3, 105, 161, 0.08)');
       sunGradient.addColorStop(1, 'transparent');
       ctx.fillStyle = sunGradient;
       ctx.beginPath();
@@ -124,7 +126,7 @@ export const SkillsUniverse = () => {
       ctx.fill();
 
       // Draw Rings
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+      ctx.strokeStyle = 'rgba(0, 0, 0, 0.04)';
       ctx.lineWidth = 1;
       [120, 220, 320].forEach(r => {
         ctx.beginPath();
@@ -166,19 +168,19 @@ export const SkillsUniverse = () => {
 
         // Draw bubble shadow/glow
         ctx.save();
-        ctx.shadowBlur = 15;
-        ctx.shadowColor = 'rgba(96, 165, 250, 0.2)';
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.05)';
         
         ctx.beginPath();
         ctx.arc(bubble.x, bubble.y, bubble.size / 2, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.03)';
+        ctx.fillStyle = 'rgba(255, 255, 255, 1)';
         ctx.fill();
-        ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+        ctx.strokeStyle = 'rgba(0, 0, 0, 0.05)';
         ctx.stroke();
 
         // Draw image
         if (bubble.img.complete) {
-          const imgSize = bubble.size * 0.6;
+          const imgSize = bubble.size * 0.55;
           ctx.drawImage(
             bubble.img, 
             bubble.x - imgSize / 2, 
@@ -191,19 +193,26 @@ export const SkillsUniverse = () => {
       });
 
       if (topHovered) {
-        setHoveredSkill(topHovered.skill);
-        setTooltipPos({ x: topHovered.x, y: topHovered.y });
+        if (hoveredSkillRef.current?.id !== topHovered.skill.id || 
+            Math.abs(tooltipPosRef.current.x - topHovered.x) > 1 || 
+            Math.abs(tooltipPosRef.current.y - topHovered.y) > 1) {
+          setHoveredSkill(topHovered.skill);
+          setTooltipPos({ x: topHovered.x, y: topHovered.y });
+          hoveredSkillRef.current = topHovered.skill;
+          tooltipPosRef.current = { x: topHovered.x, y: topHovered.y };
+        }
         canvas.style.cursor = 'grab';
-      } else {
+      } else if (hoveredSkillRef.current !== null) {
         setHoveredSkill(null);
+        hoveredSkillRef.current = null;
         canvas.style.cursor = 'default';
       }
 
       // Draw Sun Label (Simplified)
-      ctx.fillStyle = '#60a5fa';
-      ctx.font = 'bold 12px monospace';
+      ctx.fillStyle = '#0369a1';
+      ctx.font = 'black 11px Inter, sans-serif';
       ctx.textAlign = 'center';
-      ctx.fillText('FLUTTER & DART', centerX, centerY + 5);
+      ctx.fillText('CORE / FLUTTER', centerX, centerY + 4);
 
       animationFrameId = requestAnimationFrame(draw);
     };
@@ -224,7 +233,7 @@ export const SkillsUniverse = () => {
   };
 
   return (
-    <div className="relative w-full h-[700px] bg-[#04081a] rounded-[40px] overflow-hidden border border-white/5">
+    <div className="relative w-full h-[700px] bg-[#f8fafc] rounded-[40px] overflow-hidden border border-black/[0.05]">
       <canvas 
         ref={canvasRef}
         onMouseMove={handleMouseMove}
@@ -244,19 +253,19 @@ export const SkillsUniverse = () => {
             }}
             className="absolute z-50 pointer-events-none"
           >
-            <div className="cinematic-glass px-6 py-4 border-sky-blue-glow/30 min-w-[200px]">
+            <div className="bg-white px-6 py-4 border border-black/[0.06] shadow-xl rounded-2xl min-w-[200px]">
                <div className="flex justify-between items-center mb-3">
-                  <span className="text-[10px] font-black tracking-widest text-sky-blue-glow uppercase">{hoveredSkill.name}</span>
-                  <span className="text-[10px] font-bold text-white/40">{hoveredSkill.level}%</span>
+                  <span className="text-[10px] font-black tracking-widest text-[#0369a1] uppercase">{hoveredSkill.name}</span>
+                  <span className="text-[10px] font-bold text-[#64748b]">{hoveredSkill.level}%</span>
                </div>
-               <div className="w-full h-1 bg-white/5 rounded-full overflow-hidden mb-3">
+               <div className="w-full h-1 bg-black/[0.03] rounded-full overflow-hidden mb-3">
                   <motion.div 
                     initial={{ width: 0 }}
                     animate={{ width: `${hoveredSkill.level}%` }}
-                    className="h-full bg-sky-blue-glow" 
+                    className="h-full bg-[#0369a1]" 
                   />
                </div>
-               <p className="text-[9px] text-white/40 italic">{hoveredSkill.desc}</p>
+               <p className="text-[9px] text-[#94a3b8] italic font-medium uppercase tracking-tighter">{hoveredSkill.desc}</p>
             </div>
           </motion.div>
         )}
@@ -264,8 +273,8 @@ export const SkillsUniverse = () => {
 
       <div className="absolute top-10 left-10 space-y-2">
          <div className="flex items-center gap-3">
-            <span className="w-2 h-2 bg-sky-blue-glow rounded-full animate-pulse" />
-            <span className="text-[10px] font-black tracking-widest text-white/40 uppercase">Solar Systems Interactive</span>
+            <span className="w-2 h-2 bg-[#0369a1] rounded-full animate-pulse" />
+            <span className="text-[10px] font-black tracking-widest text-[#64748b] uppercase opacity-40">Solar Systems Interactive</span>
          </div>
       </div>
     </div>

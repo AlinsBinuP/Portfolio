@@ -31,59 +31,63 @@ import { SkillsUniverse } from '../components/SkillsUniverse';
 
 export const Skills = () => {
   return (
-    <div className="relative min-h-screen pt-48 pb-40 overflow-hidden bg-transparent">
-      <div className="max-w-7xl mx-auto px-6 mb-20 text-center relative z-10">
+    <div className="relative min-h-screen pt-48 pb-60 overflow-hidden bg-white">
+      {/* Background depth */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+         <div className="absolute top-0 left-0 w-full h-[60vh] bg-[radial-gradient(ellipse_at_center,_#c8e8ff_0%,_transparent_70%)] opacity-30" />
+      </div>
+
+      <div className="max-w-7xl mx-auto px-6 mb-24 text-center relative z-10">
         <motion.span 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          className="text-sky-blue-glow font-mono text-sm tracking-[0.4em] mb-4 block drop-shadow-glow"
+          className="text-sky-700 font-mono text-[11px] font-bold tracking-[0.5em] mb-6 block uppercase opacity-70"
         >
           // PERFORMANCE ENGINE
         </motion.span>
         <motion.h2 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="text-6xl md:text-9xl font-display font-black tracking-tight leading-none"
+          transition={{ duration: 0.8 }}
+          className="text-7xl md:text-[8vw] font-display font-extrabold tracking-tighter leading-none text-[#0a0a0a] uppercase"
         >
-          The Arsenal.
+          THE ARSENAL.
         </motion.h2>
+        <p className="text-[#64748b] text-xl font-sans font-light italic mt-6 max-w-xl mx-auto opacity-80">
+          A breakdown of the tools and languages that power my hybrid ecosystems.
+        </p>
       </div>
 
       <div className="max-w-6xl mx-auto px-6 relative z-10">
         <motion.div
            initial={{ opacity: 0, scale: 0.95 }}
            whileInView={{ opacity: 1, scale: 1 }}
-           transition={{ duration: 1 }}
+           transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
         >
           <SkillsUniverse />
         </motion.div>
       </div>
 
-      <div className="max-w-2xl mx-auto px-6 mt-16 text-center">
-        <div className="flex flex-wrap justify-center gap-4 mb-12">
+      <div className="max-w-2xl mx-auto px-6 mt-24 text-center relative z-10">
+        <div className="flex flex-wrap justify-center gap-6 mb-16">
            {[
-             { label: 'Core Stack', count: '2', color: 'bg-sky-blue-glow' },
-             { label: 'Tools', count: '4', color: 'bg-indigo-400' },
-             { label: 'Languages', count: '5', color: 'bg-emerald-400' }
+             { label: 'Core Stack', count: '2', color: 'bg-sky-700' },
+             { label: 'Tools', count: '4', color: 'bg-violet-600' },
+             { label: 'Languages', count: '5', color: 'bg-emerald-500' }
            ].map(cat => (
-             <span key={cat.label} className="px-5 py-2 cinematic-glass border-white/5 flex items-center gap-3">
-               <span className={`w-1.5 h-1.5 rounded-full ${cat.color}`} />
-               <span className="text-[10px] font-black tracking-widest uppercase text-white/40">{cat.label}</span>
-               <span className="text-[10px] font-bold text-white/20">· {cat.count}</span>
+             <span key={cat.label} className="px-6 py-2.5 bg-white border border-black/[0.06] shadow-sm rounded-xl flex items-center gap-4">
+               <span className={`w-2 h-2 rounded-full ${cat.color}`} />
+               <span className="text-[10px] font-mono font-bold tracking-[0.2em] uppercase text-[#475569]">{cat.label}</span>
+               <span className="text-[10px] font-sans font-bold text-[#94a3b8]">· {cat.count}</span>
              </span>
            ))}
         </div>
         
-        <p className="text-white/30 text-sm italic font-light max-w-lg mx-auto">
-          Hover and interact with the orbital system. Each node reacts to your cursor and shows deeper proficiency data.
+        <p className="text-[#94a3b8] text-[10px] font-mono tracking-[0.3em] leading-relaxed max-w-lg mx-auto font-bold uppercase opacity-60">
+          HOVER AND INTERACT WITH THE ORBITAL SYSTEM. EACH NODE REACTS TO YOUR CURSOR AND SHOWS DEEPER PROFICIENCY DATA.
         </p>
       </div>
 
-      {/* Grid Pattern Background */}
-      <div className="fixed inset-0 pointer-events-none opacity-5 z-[-1]">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff10_1px,transparent_1px),linear-gradient(to_bottom,#ffffff10_1px,transparent_1px)] bg-[size:40px_40px]" />
-      </div>
     </div>
   );
 };

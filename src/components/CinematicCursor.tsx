@@ -37,7 +37,7 @@ export const CinematicCursor = () => {
   return (
     <>
       <motion.div
-        className="fixed top-0 left-0 w-1 h-1 bg-white rounded-full z-[11000] pointer-events-none mix-blend-difference"
+        className="fixed top-0 left-0 w-1 h-1 bg-space-black rounded-full z-[11000] pointer-events-none"
         style={{ x: mouseX, y: mouseY, translateX: '-50%', translateY: '-50%' }}
       />
       <motion.div
@@ -46,8 +46,8 @@ export const CinematicCursor = () => {
         animate={{
           width: isClicked ? 20 : (isHovering ? 65 : 38),
           height: isClicked ? 20 : (isHovering ? 65 : 38),
-          border: isHovering ? '1.5px solid rgba(255, 255, 255, 1)' : '1.5px solid rgba(0, 255, 255, 0.5)',
-          backgroundColor: isHovering ? 'rgba(0, 255, 255, 0.06)' : 'rgba(0, 255, 255, 0)',
+          border: isHovering ? '1.5px solid rgba(37, 99, 235, 1)' : '1px solid rgba(15, 23, 42, 0.2)',
+          backgroundColor: isHovering ? 'rgba(37, 99, 235, 0.05)' : 'rgba(37, 99, 235, 0)',
         }}
         transition={{ type: "spring", stiffness: 400, damping: 25 }}
       />

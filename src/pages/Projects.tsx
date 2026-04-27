@@ -1,34 +1,50 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowUpRight, Gauge, Church, X, Github, ExternalLink } from 'lucide-react';
+import { ArrowUpRight, Gauge, Church, X, Github, ExternalLink, Box, Sparkles } from 'lucide-react';
 import { Magnetic } from '../components/Magnetic';
 
 const PROJECTS = [
   {
-    id: 'cardash',
-    title: 'CarDash 🚗',
-    description: 'A smartphone PWA that replaces a missing in-built car display.',
-    longDescription: 'Features live GPS speedometer, Google Maps navigation, music app shortcuts, a dialpad, night mode, and Screen Wake Lock API so the screen never dims while driving. Built entirely with vanilla HTML, CSS, and JS to ensure maximum compatibility and performance.',
-    tags: ['Flutter', 'PWA', 'GPS API', 'WakeLock'],
-    category: 'UTILITY · OPEN SOURCE',
-    color: '#2563eb',
-    image: "https://images.unsplash.com/photo-1549233861-46821219cd5b?q=80&w=800",
-    mockup: "speedometer"
+    id: 'light-suvara',
+    title: 'Light Suvara',
+    description: 'A mission-critical Flutter app for church communities—managing schedules, announcements, and prayer requests.',
+    longDescription: 'Designed and built from scratch for a specific church community. Light Suvara handles announcements, event schedules, and community features — all tailored to the congregation\'s exact workflows. A live product used by real people every day. Built with Flutter, Dart, and Firebase.',
+    tags: ['Flutter', 'Dart', 'Firebase', 'Android', 'iOS'],
+    category: 'FLUTTER · CHURCH HUB',
+    color: '#3b82f6',
+    image: "https://images.unsplash.com/photo-1438232992991-995b7058bbb3?q=80&w=1200",
+    mockup: "church",
+    featured: true
   },
   {
-    id: 'light-suvara',
-    title: 'Light Suvara ⛪',
-    description: 'A complete community app for church management and engagement.',
-    longDescription: 'Built with Flutter and Firebase, this app serves an entire church community with announcements, event tracking, family records, and real-time notifications. It bridges the gap between traditional community management and digital accessibility.',
-    tags: ['Flutter', 'Firebase', 'Realtime DB'],
-    category: 'COMMUNITY · PRODUCT',
-    color: '#f59e0b',
-    image: "https://images.unsplash.com/photo-1438232992991-995b7058bbb3?q=80&w=800",
-    mockup: "church"
+    id: 'prism-studio',
+    title: 'Prism Studio',
+    description: 'An all-in-one AI powerhouse—image generation, background removal, and multi-modal productivity tools.',
+    longDescription: 'Prism Studio is a full-stack web application and all-in-one AI powerhouse. Features include: AI Image Generation, 3D Motion, Background Removal, Magic Eraser, YouTube Notes, Text-to-Speech, Essay Writer, PDF Tools, Deepfake Detector, Doc Summarizer, and Image Upscaler — all in one place. Built for speed, privacy, and multi-modal AI workflows.',
+    tags: ['Web App', 'AI', 'Full Stack', 'Vercel'],
+    category: 'WEB · AI ECOSYSTEM',
+    color: '#8b5cf6',
+    image: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=1200",
+    mockup: "prism",
+    featured: true,
+    liveUrl: 'https://prismstudioai.vercel.app/',
+    badge: '12+ AI Tools'
+  },
+  {
+    id: 'cardash',
+    title: 'CarDash',
+    description: 'Replacing standard car displays with high-performance Flutter dashboards—GPS, Maps, and music integration.',
+    longDescription: 'Built to replace a missing in-built car display. CarDash runs on Android and iOS, featuring a live GPS speedometer, Google Maps integration, music app shortcuts, a dialpad, Screen Wake Lock so the display never dims while driving, and a night mode for low-light use. No dependencies — built entirely in Flutter and Dart.',
+    tags: ['Flutter', 'Dart', 'GPS API', 'Google Maps', 'Android', 'iOS'],
+    category: 'FLUTTER · AUTOMOTIVE',
+    color: '#0ea5e9',
+    image: "https://images.unsplash.com/photo-1549233861-46821219cd5b?q=80&w=1200",
+    mockup: "speedometer",
+    featured: false
   }
 ];
 
-const ProjectCard = ({ project, onClick }: { project: typeof PROJECTS[0], onClick: () => void }) => {
+const ProjectCard = ({ project, onClick, className = "" }: { project: typeof PROJECTS[0], onClick: () => void, className?: string }) => {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -44,60 +60,53 @@ const ProjectCard = ({ project, onClick }: { project: typeof PROJECTS[0], onClic
       onClick={onClick}
       onMouseMove={handleMouseMove}
       onMouseLeave={() => setMousePos({ x: 0, y: 0 })}
-      className="cinematic-glass group cursor-pointer overflow-hidden p-6 md:p-10 flex flex-col h-full bg-midnight/30 border-white/5 hover:border-white/20 transition-colors"
+      className={`group cursor-pointer overflow-hidden p-8 md:p-12 flex flex-col h-full bg-white border border-black/[0.06] hover:border-[#0369a1]/20 hover:shadow-[0_45px_100px_rgba(3,105,161,0.12)] transition-all ease-out duration-500 ${className}`}
+      style={{
+        transformStyle: 'preserve-3d',
+        transform: `perspective(1000px) rotateX(${mousePos.y * -10}deg) rotateY(${mousePos.x * 10}deg)`,
+      }}
     >
-      <div className="relative aspect-video rounded-3xl overflow-hidden mb-10 border border-white/5 bg-midnight shadow-2xl">
+      <div className="relative aspect-[16/10] rounded-[40px] overflow-hidden mb-12 border border-black/[0.05] bg-[#f8fafc] shadow-2xl group-hover:scale-[1.02] transition-transform duration-700">
         <motion.div
-          animate={{ x: mousePos.x * -20, y: mousePos.y * -20 }}
-          transition={{ type: "spring", damping: 30, stiffness: 100 }}
-          className="w-full h-full scale-110"
+          animate={{ x: mousePos.x * -25, y: mousePos.y * -25 }}
+          transition={{ type: "spring", damping: 40, stiffness: 120 }}
+          className="w-full h-full scale-125"
         >
           <img 
             src={project.image} 
-            className="w-full h-full object-cover grayscale-[0.5] group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-105" 
+            className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-110 opacity-80 group-hover:opacity-100" 
             alt={project.title}
           />
         </motion.div>
         
-        {/* Advanced Mockup Overlays */}
-        <div className="absolute inset-0 bg-midnight/60 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-12">
-            {project.mockup === "speedometer" ? (
-               <div className="w-48 h-48 rounded-full border-[10px] border-white/10 relative flex flex-col items-center justify-center bg-black/40 shadow-[0_0_50px_rgba(37,99,235,0.4)]">
-                  <div className="absolute inset-0 rounded-full border-t-[10px] border-sky-blue-glow animate-spin-slow rotate-[45deg]" />
-                  <motion.div 
-                    animate={{ rotate: [-20, 60, -10, 40] }} 
-                    transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                    className="w-1 h-20 bg-sky-blue-glow origin-bottom absolute bottom-1/2 shadow-glow-sm" 
-                  />
-                  <span className="text-4xl font-display font-black text-white italic mt-4">84</span>
-                  <span className="text-[10px] font-bold tracking-[0.2em] text-white/40">KM/H</span>
-               </div>
-            ) : (
-               <div className="flex flex-col items-center gap-6">
-                 <Church className="w-24 h-24 text-amber-accent drop-shadow-[0_0_20px_rgba(245,158,11,0.5)]" />
-                 <div className="flex gap-2">
-                    <div className="w-2 h-2 bg-amber-accent rounded-full animate-ping" />
-                    <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-amber-accent/80">Live Community</span>
-                 </div>
-               </div>
-            )}
+        {/* Glass Overlay on Hover */}
+        <div className="absolute inset-0 bg-sky-900/0 group-hover:bg-sky-900/5 transition-colors duration-500" />
+        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none ring-1 ring-inset ring-white/20 rounded-[40px]" />
+
+        <div className="absolute inset-x-0 bottom-0 p-10 flex justify-end pointer-events-none transform translate-z-10">
+           {project.mockup === "speedometer" && <Gauge className="w-24 h-24 text-[#0369a1] opacity-5 group-hover:opacity-20 transition-opacity" />}
+           {project.mockup === "church" && <Church className="w-24 h-24 text-[#f59e0b] opacity-5 group-hover:opacity-20 transition-opacity" />}
+           {project.mockup === "prism" && <Sparkles className="w-24 h-24 text-[#7c3aed] opacity-5 group-hover:opacity-20 transition-opacity" />}
         </div>
       </div>
 
-      <div className="flex-1">
-        <span className="text-[10px] font-bold tracking-[0.4em] text-sky-blue-glow uppercase mb-6 block drop-shadow-glow">{project.category}</span>
-        <h3 className="text-4xl md:text-5xl font-display font-black mb-6 tracking-tight leading-none group-hover:text-glow transition-all">{project.title}</h3>
-        <p className="text-lg text-white/50 mb-10 leading-relaxed max-w-md">{project.description}</p>
+      <div className="flex-1 transform translate-z-20">
+        <div className="flex items-center gap-4 mb-8">
+           <span className="text-[10px] font-mono font-bold tracking-[0.5em] text-sky-700 uppercase">{project.category}</span>
+           {project.badge && <span className="text-[9px] font-mono font-bold tracking-widest text-sky-600 bg-sky-50 px-3 py-1 rounded-full border border-sky-100">{project.badge}</span>}
+        </div>
+        <h3 className="text-4xl md:text-6xl font-display font-extrabold mb-8 tracking-tighter leading-none text-[#0a0a0a] group-hover:text-black transition-all uppercase">{project.title}</h3>
+        <p className="text-xl text-[#64748b] mb-12 leading-relaxed max-w-sm font-sans font-normal group-hover:text-[#334155] transition-colors">{project.description}</p>
       </div>
 
-      <div className="flex items-center justify-between mt-auto">
-        <div className="flex gap-2">
-          {project.tags.map(tag => (
-            <span key={tag} className="px-4 py-2 cinematic-glass border-white/5 text-[9px] font-bold tracking-widest uppercase text-white/40">{tag}</span>
+      <div className="flex items-center justify-between mt-auto transform translate-z-30">
+        <div className="flex flex-wrap gap-2">
+          {project.tags.slice(0, 3).map(tag => (
+            <span key={tag} className="px-4 py-2 bg-[#f8fafc] border border-black/[0.04] text-[9px] font-mono font-bold tracking-widest uppercase text-[#475569] rounded-full">{tag}</span>
           ))}
         </div>
-        <Magnetic strength={20}>
-          <div className="w-16 h-16 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-white group-hover:text-midnight group-hover:scale-110 transition-all duration-500">
+        <Magnetic strength={30}>
+          <div className="w-16 h-16 rounded-full bg-[#0a0a0a] text-white flex items-center justify-center group-hover:bg-sky-700 group-hover:scale-110 transition-all duration-500 shadow-2xl">
             <ArrowUpRight className="w-6 h-6" />
           </div>
         </Magnetic>
@@ -108,20 +117,94 @@ const ProjectCard = ({ project, onClick }: { project: typeof PROJECTS[0], onClic
 
 export const Projects = () => {
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [hoveredProject, setHoveredProject] = useState<string | null>(null);
   const selectedProject = PROJECTS.find(p => p.id === selectedId);
 
   return (
-    <div className="max-w-7xl mx-auto px-6 pt-48 pb-40 min-h-screen">
-      <div className="mb-20">
-        <span className="text-sky-blue-glow font-mono text-sm tracking-[0.2em] mb-4 block">// SELECTED WORK</span>
-        <h2 className="text-7xl font-display font-black tracking-tight leading-none">Real projects.</h2>
-        <h2 className="text-7xl font-display font-black tracking-tight leading-none text-white/20">Real impact.</h2>
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="relative min-h-screen bg-white pt-48 pb-60 px-6 md:px-20 overflow-hidden"
+    >
+      {/* Background depth & Hover Glow Effect */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+         <div className="absolute top-0 left-0 w-full h-[60vh] bg-[radial-gradient(ellipse_at_center,_#c8e8ff_0%,_transparent_70%)] opacity-30" />
+         <AnimatePresence>
+            {hoveredProject && (
+               <motion.div 
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 0.1 }}
+                  exit={{ opacity: 0 }}
+                  className="fixed inset-0 bg-[#2563eb] blur-[150px] transition-all duration-700"
+               />
+            )}
+         </AnimatePresence>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-        {PROJECTS.map((project) => (
-          <ProjectCard key={project.id} project={project} onClick={() => setSelectedId(project.id)} />
-        ))}
+      <div className="max-w-7xl mx-auto relative z-10">
+        <div className="mb-32">
+          <span className="text-sky-700 font-mono text-[11px] font-bold tracking-[0.4em] mb-6 block uppercase opacity-70">// ARCHIVE</span>
+          <h2 className="text-7xl md:text-[10vw] font-display font-extrabold tracking-tighter leading-none text-[#0a0a0a] uppercase flex flex-col md:flex-row items-baseline gap-6">
+            <span>PROJECTS</span>
+            <motion.span 
+              initial={{ width: 0 }}
+              whileInView={{ width: 'auto' }}
+              className="h-[1px] bg-black/10 flex-1 hidden lg:block"
+            />
+          </h2>
+          <p className="text-[#64748b] text-2xl font-sans font-light italic mt-4 max-w-2xl opacity-80">
+            A curated collection of Flutter architectures and real-world digital systems.
+          </p>
+        </div>
+
+        {/* Asymmetrical Bento Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-10 gap-8">
+           {/* Primary Item */}
+           <div 
+             className="md:col-span-6"
+             onMouseEnter={() => setHoveredProject(PROJECTS[0].id)}
+             onMouseLeave={() => setHoveredProject(null)}
+           >
+              <ProjectCard 
+                project={PROJECTS[0]} 
+                onClick={() => setSelectedId(PROJECTS[0].id)} 
+                className="rounded-[48px] h-full"
+              />
+           </div>
+
+           <div className="md:col-span-4 flex flex-col gap-8">
+              {PROJECTS.slice(1).map((project) => (
+                <div 
+                  key={project.id} 
+                  className="flex-1"
+                  onMouseEnter={() => setHoveredProject(project.id)}
+                  onMouseLeave={() => setHoveredProject(null)}
+                >
+                  <ProjectCard 
+                    project={project} 
+                    onClick={() => setSelectedId(project.id)} 
+                    className="rounded-[40px] !p-8 h-full shadow-[0_45px_80px_rgba(3,105,161,0.05)] hover:shadow-[0_45px_100px_rgba(3,105,161,0.1)] transition-all"
+                  />
+                </div>
+              ))}
+           </div>
+        </div>
+
+        {/* Stats Row */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-10 border-t border-black/[0.06] pt-20">
+               {[
+                 { label: 'PROJECTS', val: '03' },
+                 { label: 'FLUTTER EXP', val: '3Y+' },
+                 { label: 'LIVE TOOLS', val: '12+' },
+                 { label: 'COUNTRIES', val: '01' }
+               ].map(stat => (
+                 <div key={stat.label} className="space-y-2">
+                    <span className="text-[10px] font-mono font-bold tracking-[0.3em] text-[#64748b] uppercase opacity-50">{stat.label}</span>
+                    <p className="text-5xl font-display font-bold text-[#0a0a0a]">{stat.val}</p>
+                 </div>
+               ))}
+            </div>
       </div>
 
       <AnimatePresence>
@@ -132,50 +215,60 @@ export const Projects = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setSelectedId(null)}
-              className="absolute inset-0 bg-midnight/95 backdrop-blur-3xl"
+              className="absolute inset-0 bg-white/90 backdrop-blur-3xl"
             />
             
             <motion.div
               layoutId={`card-${selectedId}`}
-              className="w-full max-w-5xl bg-cobalt rounded-[40px] overflow-hidden relative cinematic-glass p-8 md:p-12"
+              className="w-full max-w-6xl bg-white rounded-[40px] overflow-hidden relative shadow-[0_40px_120px_rgba(0,0,0,0.15)] p-8 md:p-16 border border-black/[0.05]"
             >
               <button 
                 onClick={() => setSelectedId(null)}
-                className="absolute top-8 right-8 w-12 h-12 rounded-full cinematic-glass border-white/20 flex items-center justify-center hover:bg-white/10 transition-all"
+                className="absolute top-10 right-10 w-14 h-14 rounded-full bg-[#f8fafc] border border-black/[0.06] flex items-center justify-center hover:bg-[#0a0a0a] text-[#0a0a0a] hover:text-white transition-all z-30"
               >
                 <X className="w-6 h-6" />
               </button>
 
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                 <div className="aspect-[4/3] rounded-3xl overflow-hidden border border-white/5">
-                   <img src={selectedProject.image} className="w-full h-full object-cover" alt={selectedProject.title} />
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+                 <div className="aspect-[4/3] rounded-[32px] overflow-hidden border border-black/[0.06] shadow-xl relative group">
+                    <img src={selectedProject.image} className="w-full h-full object-cover" alt={selectedProject.title} />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
                  </div>
                  
-                 <div className="space-y-8">
-                    <div>
-                      <span className="text-xs font-bold tracking-[0.4em] text-white/40 uppercase mb-4 block">{selectedProject.category}</span>
-                      <h2 className="text-6xl font-display font-extrabold">{selectedProject.title}</h2>
+                 <div className="space-y-10">
+                    <div className="space-y-4">
+                      <span className="text-xs font-black tracking-[0.5em] text-[#0369a1] uppercase block opacity-70">{selectedProject.category}</span>
+                      <h2 className="text-6xl md:text-8xl font-heavy uppercase leading-tight text-[#0a0a0a] tracking-tighter">{selectedProject.title}</h2>
                     </div>
                     
-                    <p className="text-xl text-white/70 leading-relaxed">
+                    <p className="text-xl text-[#4a5568] leading-relaxed font-light">
                       {selectedProject.longDescription}
                     </p>
 
-                    <div className="flex flex-wrap gap-4">
+                    <div className="flex flex-wrap gap-2">
                        {selectedProject.tags.map(tag => (
-                          <span key={tag} className="px-4 py-2 cinematic-glass border-white/10 text-xs font-bold tracking-widest">{tag}</span>
+                          <span key={tag} className="px-5 py-2 bg-[#f1f5f9] border border-black/[0.03] text-[10px] font-bold tracking-widest uppercase text-[#64748b]">{tag}</span>
                        ))}
                     </div>
 
-                    <div className="flex gap-6 pt-8">
+                    <div className="flex flex-wrap gap-6 pt-10">
+                       {selectedProject.liveUrl ? (
+                         <Magnetic strength={20}>
+                           <a href={selectedProject.liveUrl} target="_blank" rel="noreferrer" className="bg-[#0369a1] text-white px-10 py-5 rounded-full font-black text-[10px] tracking-widest uppercase flex items-center gap-4 hover:bg-[#075985] transition-all shadow-xl">
+                             Visit Website <ExternalLink className="w-4 h-4" />
+                           </a>
+                         </Magnetic>
+                       ) : (
+                         <Magnetic strength={20}>
+                           <button className="bg-[#0a0a0a] text-white px-10 py-5 rounded-full font-black text-[10px] tracking-widest uppercase flex items-center gap-4 hover:bg-[#0369a1] transition-all shadow-xl">
+                             Request Demo <Box className="w-4 h-4" />
+                           </button>
+                         </Magnetic>
+                       )}
+                       
                        <Magnetic strength={20}>
-                         <button className="bg-white text-midnight px-8 py-4 rounded-full font-bold flex items-center gap-3">
-                           See Live Demo <ExternalLink className="w-4 h-4" />
-                         </button>
-                       </Magnetic>
-                       <Magnetic strength={20}>
-                         <button className="cinematic-glass px-8 py-4 flex items-center gap-3 border-white/10 font-bold">
-                           GitHub <Github className="w-4 h-4" />
+                         <button className="bg-[#f8fafc] border border-black/[0.06] px-10 py-5 flex items-center gap-4 font-black uppercase text-[10px] tracking-widest text-[#0a0a0a] hover:bg-[#f1f5f9] transition-all">
+                           Details <Github className="w-4 h-4" />
                          </button>
                        </Magnetic>
                     </div>
@@ -185,6 +278,6 @@ export const Projects = () => {
           </div>
         )}
       </AnimatePresence>
-    </div>
+    </motion.div>
   );
 };

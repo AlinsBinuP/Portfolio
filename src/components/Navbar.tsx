@@ -1,66 +1,91 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, useScroll } from 'framer-motion';
 import { ABLogo } from './ABLogo';
 import { Magnetic } from './Magnetic';
 
+import { Github, Linkedin, Twitter, Instagram } from 'lucide-react';
+
 const NAV_LINKS = [
-  { name: 'Home', path: '/' },
-  { name: 'About', path: '/about' },
-  { name: 'Projects', path: '/projects' },
-  { name: 'Skills', path: '/skills' },
-  { name: 'Education', path: '/education' },
-  { name: 'Contact', path: '/contact' }
+  { label: 'Home', path: '/' },
+  { label: 'Works', path: '/projects' },
+  { label: 'About', path: '/about' },
+  { label: 'Labs', path: '/skills' },
+  { label: 'History', path: '/education' }
+];
+
+const SOCIALS = [
+  { icon: Github, label: 'GitHub', url: 'https://github.com/alinsbinu' },
+  { icon: Linkedin, label: 'LinkedIn', url: 'https://linkedin.com/in/alinsbinu' },
+  { icon: Twitter, label: 'Twitter', url: '#' }
 ];
 
 export const Navbar = () => {
+  const { scrollY } = useScroll();
+  const [isScrolled, setIsScrolled] = React.useState(false);
+
+  React.useEffect(() => {
+    return scrollY.onChange((latest) => {
+      setIsScrolled(latest > 50);
+    });
+  }, [scrollY]);
+
   return (
     <motion.nav
       initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-      className="fixed top-8 left-1/2 -translate-x-1/2 w-[min(94%,1200px)] z-50 h-20 cinematic-glass flex items-center justify-between px-10 border-white/5"
+      animate={{ 
+        y: 0,
+        height: isScrolled ? '72px' : '96px',
+        backgroundColor: isScrolled ? 'rgba(255, 255, 255, 0.95)' : 'rgba(255, 255, 255, 0.88)'
+      }}
+      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+      className="fixed top-0 left-0 right-0 z-[100] backdrop-blur-[20px] border-b border-black/5 flex items-center justify-between px-8 md:px-20"
     >
       <NavLink to="/" className="flex items-center gap-3 group">
-        <Magnetic strength={10}>
-          <ABLogo size={36} inverted={true} />
-        </Magnetic>
+        <span className="font-serif italic text-[22px] font-bold tracking-tight text-[#0a0a0a] group-hover:text-sky-700 transition-colors">Alins.</span>
       </NavLink>
 
       <div className="hidden md:flex items-center gap-10">
         {NAV_LINKS.map((link) => (
-          <Magnetic key={link.name} strength={10}>
-            <NavLink
-              to={link.path}
-              className={({ isActive }) =>
-                `relative text-[10px] font-bold tracking-[0.3em] uppercase transition-colors ${
-                  isActive ? 'text-white' : 'text-white/40 hover:text-white'
-                }`
-              }
-            >
-              {({ isActive }) => (
-                <>
-                  {isActive && (
-                    <motion.div
-                      layoutId="nav-dot"
-                      className="absolute -top-4 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[#7dd3fc] shadow-[0_0_6px_#38bdf8]"
-                      transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                    />
-                  )}
-                  {link.name}
-                </>
-              )}
-            </NavLink>
-          </Magnetic>
+          <NavLink
+            key={link.label}
+            to={link.path}
+            className={({ isActive }) =>
+              `relative text-[11px] font-mono font-bold tracking-[0.3em] uppercase transition-all py-1 overflow-hidden group
+              ${isActive ? 'text-sky-700' : 'text-[#6b7280]'}`
+            }
+          >
+            <div className="relative overflow-hidden h-[14px]">
+               <div className="flex flex-col transition-transform duration-500 ease-[0.16,1,0.3,1] group-hover:-translate-y-[14px]">
+                  <span>{link.label}</span>
+                  <span className="text-sky-700">{link.label}</span>
+               </div>
+            </div>
+          </NavLink>
         ))}
+        
+        <div className="h-4 w-[1px] bg-black/10 mx-2" />
+        
+        <div className="flex gap-4">
+           {SOCIALS.map(social => (
+             <motion.a 
+               key={social.label}
+               href={social.url}
+               whileHover={{ scale: 1.1, y: -2 }}
+               className="p-2 border border-black/5 rounded-full bg-black/[0.02] hover:bg-black hover:text-white transition-all duration-300"
+             >
+                <social.icon size={13} strokeWidth={2.5} />
+             </motion.a>
+           ))}
+        </div>
       </div>
 
       <Magnetic strength={20}>
         <NavLink 
           to="/contact"
-          className="bg-white text-midnight px-8 py-3.5 rounded-full font-bold text-[10px] tracking-widest uppercase hover:bg-sky-blue-glow transition-all"
+          className="bg-[#0a0a0a] text-white px-6 py-2.5 rounded-full font-mono font-bold text-[10px] tracking-widest uppercase hover:bg-sky-700 transition-all shadow-md"
         >
-          Hire Me →
+          Contact
         </NavLink>
       </Magnetic>
     </motion.nav>

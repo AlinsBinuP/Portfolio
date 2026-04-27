@@ -43,15 +43,20 @@ export const Education = () => {
   const x = useTransform(scrollYProgress, [0, 1], ["0%", "-66.6%"]);
 
   return (
-    <div ref={containerRef} className="relative h-[300vh] bg-transparent overflow-visible">
+    <div ref={containerRef} className="relative h-[300vh] bg-white overflow-visible">
       <div className="sticky top-0 h-screen w-full flex items-center overflow-hidden">
+        {/* Background Depth */}
+        <div className="absolute inset-0 z-0 pointer-events-none">
+           <div className="absolute top-0 left-0 w-full h-[60vh] bg-[radial-gradient(ellipse_at_center,_#c8e8ff_0%,_transparent_70%)] opacity-30" />
+        </div>
+
         {/* Progress Line Background */}
-        <div className="absolute top-1/2 left-0 w-full h-[2px] bg-white/5 -z-10" />
+        <div className="absolute top-1/2 left-0 w-full h-[2px] bg-black/[0.04] -z-10" />
         
         {/* Animated Progress Line */}
         <motion.div 
           style={{ scaleX: scrollYProgress, transformOrigin: "left" }}
-          className="absolute top-1/2 left-0 w-full h-[2px] bg-sky-blue-glow shadow-glow-sm z-0"
+          className="absolute top-1/2 left-0 w-full h-[2px] bg-[#0369a1] z-0"
         />
 
         <motion.div style={{ x }} className="flex h-full items-center">
@@ -64,8 +69,8 @@ export const Education = () => {
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
                  <motion.span 
                    initial={{ opacity: 0 }}
-                   whileInView={{ opacity: 0.08 }}
-                   className="text-[30vw] font-display font-black text-white"
+                   whileInView={{ opacity: 0.05 }}
+                   className="text-[30vw] font-heavy text-[#0a0a0a]"
                  >
                    {edu.id}
                  </motion.span>
@@ -78,40 +83,40 @@ export const Education = () => {
                      whileInView={{ opacity: 1, x: 0 }}
                      transition={{ duration: 0.8 }}
                    >
-                     <div className="mb-6 flex items-center gap-4">
-                        <span className="px-4 py-1 cinematic-glass border-white/20 text-[10px] font-black tracking-widest text-sky-blue-glow">{edu.year}</span>
-                        {edu.current && (
-                          <span className="flex items-center gap-2 px-4 py-1 bg-sky-blue-vibrant/20 text-sky-blue-glow text-[10px] font-black tracking-widest rounded-full border border-sky-blue-vibrant/30">
-                            <span className="w-1.5 h-1.5 bg-sky-blue-glow rounded-full animate-pulse" />
-                            CURRENT
-                          </span>
-                        )}
-                     </div>
-                     <h3 className="text-4xl md:text-6xl font-display font-black mb-6 leading-tight tracking-tight">
-                        {edu.title}
-                     </h3>
-                     <p className="text-xl text-white/40 font-light leading-relaxed">
-                        {edu.school}
-                     </p>
+                      <div className="mb-6 flex items-center gap-4">
+                         <span className="px-5 py-1.5 bg-[#f1f5f9] border border-black/[0.03] text-[10px] font-black tracking-widest text-[#0369a1]">{edu.year}</span>
+                         {edu.current && (
+                           <span className="flex items-center gap-2 px-5 py-1.5 bg-sky-50 text-[#0369a1] text-[10px] font-black tracking-widest rounded-full border border-[#0369a1]/10">
+                             <span className="w-1.5 h-1.5 bg-[#10b981] rounded-full animate-pulse" />
+                             CURRENT
+                           </span>
+                         )}
+                      </div>
+                      <h3 className="text-5xl md:text-7xl font-heavy mb-8 leading-tight tracking-tighter text-[#0a0a0a] uppercase">
+                         {edu.title}
+                      </h3>
+                      <p className="text-xl text-[#64748b] font-light leading-relaxed italic border-l-2 border-[#0369a1]/20 pl-6">
+                         {edu.school}
+                      </p>
                    </motion.div>
 
                    <motion.div
                      initial={{ opacity: 0, scale: 0.8 }}
                      whileInView={{ opacity: 1, scale: 1 }}
                      transition={{ duration: 0.8, delay: 0.2 }}
-                     className="cinematic-glass p-8 md:p-12 border-white/10 relative group"
+                     className="bg-white p-10 md:p-14 border border-black/[0.06] rounded-[40px] shadow-2xl relative group"
                    >
-                     <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-30 transition-opacity">
-                        <edu.icon size={80} />
-                     </div>
-                     <p className="text-lg md:text-xl text-white/60 mb-8 font-light italic">
-                        "{edu.desc}"
-                     </p>
-                     <div className="flex gap-2">
-                        {["Computer Science", "Engineering", "Flutter"].map(tag => (
-                          <span key={tag} className="text-[9px] font-black tracking-widest uppercase text-white/30">{tag}</span>
-                        ))}
-                     </div>
+                      <div className="absolute top-6 right-6 p-8 text-[#0369a1]/[0.05] group-hover:text-[#0369a1]/10 transition-colors">
+                         <edu.icon size={100} />
+                      </div>
+                      <p className="text-xl md:text-2xl text-[#4a5568] mb-12 font-light leading-relaxed">
+                         "{edu.desc}"
+                      </p>
+                      <div className="flex flex-wrap gap-4">
+                         {["Computer Science", "Engineering", "Flutter"].map(tag => (
+                           <span key={tag} className="text-[9px] font-black tracking-widest uppercase text-[#94a3b8]">{tag}</span>
+                         ))}
+                      </div>
                    </motion.div>
                 </div>
               </div>
@@ -119,8 +124,8 @@ export const Education = () => {
               {/* Floating year above station */}
               <motion.div 
                 initial={{ opacity: 0, y: -40 }}
-                whileInView={{ opacity: 0.1, y: -200 }}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 text-8xl font-display font-black text-white pointer-events-none"
+                whileInView={{ opacity: 0.05, y: -200 }}
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 text-8xl font-heavy text-[#0a0a0a] pointer-events-none uppercase"
               >
                 {edu.year.split(" ")[0]}
               </motion.div>
@@ -131,7 +136,7 @@ export const Education = () => {
 
       {/* Intro label */}
       <div className="absolute top-48 left-12 z-20">
-         <span className="text-sky-blue-glow font-mono text-sm tracking-[0.4em] block drop-shadow-glow">// ACADEMIC ODYSSEY</span>
+         <span className="text-[#0369a1] font-mono text-[11px] font-black tracking-[0.4em] block opacity-70 uppercase">// ACADEMIC ODYSSEY</span>
       </div>
     </div>
   );

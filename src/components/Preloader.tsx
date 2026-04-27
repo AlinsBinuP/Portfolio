@@ -6,24 +6,26 @@ export const Preloader = ({ onComplete }: { onComplete: () => void }) => {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    // Fills over 2.2s as per requirement
     const duration = 2200;
     const interval = 20;
     const steps = duration / interval;
     const increment = 100 / steps;
 
     const timer = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 100) {
-          clearInterval(timer);
-          setTimeout(onComplete, 500);
-          return 100;
-        }
-        return prev + increment;
-      });
+      setProgress((prev) => Math.min(prev + increment, 100));
     }, interval);
+
     return () => clearInterval(timer);
-  }, [onComplete]);
+  }, []);
+
+  useEffect(() => {
+    if (progress >= 100) {
+      const timeout = setTimeout(() => {
+        onComplete();
+      }, 500);
+      return () => clearTimeout(timeout);
+    }
+  }, [progress, onComplete]);
 
   return (
     <motion.div

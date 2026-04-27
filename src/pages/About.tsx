@@ -4,7 +4,7 @@ import { Download, Globe, Layers } from 'lucide-react';
 import { Magnetic } from '../components/Magnetic';
 
 const STATS = [
-  { label: "Live Apps", value: "2" },
+  { label: "Live Projects", value: "3" },
   { label: "Current Year", value: "4th" },
   { label: "Focus", value: "Flutter" }
 ];
@@ -42,8 +42,6 @@ export const About = () => {
   const handleStackClick = (clickedIdx: number) => {
     setIsAutoPlaying(false);
     
-    // Add a slight delay to allow a "tap" animation if desired, 
-    // but framer-motion's layout and whileTap already provide great feedback.
     setStackOrder(prev => {
       const next = prev.filter(idx => idx !== clickedIdx);
       return [clickedIdx, ...next];
@@ -52,17 +50,20 @@ export const About = () => {
 
   return (
     <div 
-      className="min-h-screen pt-48 pb-40 px-8 md:px-20 overflow-hidden bg-transparent"
+      className="min-h-screen pt-48 pb-40 px-8 md:px-20 overflow-hidden bg-white text-[#0a0a0a]"
       onMouseMove={handleMouseMove}
     >
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-20 lg:gap-32 items-center">
+      <div className="absolute inset-0 z-0 pointer-events-none">
+         <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(ellipse_at_top_right,_#eef8ff_0%,_transparent_60%)] opacity-50" />
+      </div>
+
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-20 lg:gap-32 items-center relative z-10">
         <div className="lg:col-span-6 relative perspective-2000 order-2 lg:order-1 h-[600px] flex items-center justify-center">
            <div className="relative w-full max-w-[420px] aspect-[3/4] z-10">
-              {/* Decorative backgrounds */}
               <motion.div 
                  animate={{ scale: [1, 1.2, 1], rotate: [0, 90, 0] }}
                  transition={{ duration: 20, repeat: Infinity }}
-                 className="absolute inset-0 bg-sky-blue-vibrant/10 blur-[120px] -z-10"
+                 className="absolute inset-0 bg-[#0369a1]/5 blur-[120px] -z-10"
               />
 
               <div className="relative w-full h-full">
@@ -94,8 +95,9 @@ export const About = () => {
                       onClick={() => handleStackClick(imgIdx)}
                       exit={{ opacity: 0, scale: 0.5, x: 200, rotate: 25 }}
                       transition={{ type: "spring", stiffness: 100, damping: 20 }}
-                      className="absolute inset-0 cinematic-glass overflow-hidden shadow-2xl border-white/10 group rounded-[30px] cursor-pointer"
+                      className="absolute inset-0 bg-white overflow-hidden shadow-[0_32px_80px_rgba(0,0,0,0.1)] border border-black/[0.05] group rounded-[40px] cursor-pointer"
                     >
+                      <div className="absolute inset-0 border-[12px] border-white/40 ring-1 ring-black/5 z-20 pointer-events-none rounded-[40px]" />
                       <img 
                         src={STACK_IMAGES[imgIdx]} 
                         className={`w-full h-full object-cover transition-all duration-700 ${position === 0 ? 'grayscale-0' : 'grayscale'}`}
@@ -107,18 +109,13 @@ export const About = () => {
                           animate={{ opacity: 1 }}
                           className="absolute inset-0"
                         >
-                          <div className="absolute inset-0 bg-gradient-to-t from-midnight/60 to-transparent" />
-                          <div className="absolute bottom-8 left-8">
-                             <span className="text-[10px] font-black tracking-[0.4em] text-white/40 uppercase block mb-1">CRAFTING FROM</span>
-                             <span className="text-xl font-display font-bold">Idukki, Kerala</span>
-                          </div>
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
                         </motion.div>
                       )}
                       
-                      {/* Interaction hint on background images */}
                       {position !== 0 && (
-                        <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors flex items-center justify-center">
-                           <Layers className="text-white/20 group-hover:text-white/60 transition-colors" />
+                        <div className="absolute inset-0 bg-white/40 group-hover:bg-transparent transition-colors flex items-center justify-center">
+                           <Layers className="text-[#0a0a0a]/20 group-hover:text-[#0a0a0a]/60 transition-colors" />
                         </div>
                       )}
                     </motion.div>
@@ -126,75 +123,108 @@ export const About = () => {
                 </AnimatePresence>
               </div>
 
-              {/* Identity Pill */}
               <motion.div 
-                animate={{ y: [0, -10, 0] }}
+                animate={{ y: [0, -6, 0] }}
                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute -top-12 -right-6 cinematic-glass px-6 py-3 flex items-center gap-3 border-white/20 z-30 shadow-glow-sm"
+                className="absolute -top-12 -right-6 bg-white border border-black/[0.06] px-6 py-3 flex items-center gap-3 z-30 shadow-xl rounded-full"
               >
-                  <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
-                  <span className="text-[10px] font-black tracking-[0.3em] uppercase text-white/80">Active Projects: 2</span>
+                  <div className="w-2 h-2 bg-[#10b981] rounded-full animate-pulse" />
+                  <span className="text-[10px] font-black tracking-[0.2em] uppercase text-[#374151]">STATUS: BUILDING</span>
               </motion.div>
            </div>
         </div>
 
         <div className="lg:col-span-6 space-y-12 order-1 lg:order-2">
-            <div>
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={{
+                hidden: { opacity: 0 },
+                visible: {
+                  opacity: 1,
+                  transition: {
+                    staggerChildren: 0.15
+                  }
+                }
+              }}
+            >
               <motion.span 
-                initial={{ opacity: 0, x: -10 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                className="text-sky-blue-glow font-mono text-sm tracking-[0.3em] mb-6 block drop-shadow-glow"
+                variants={{
+                  hidden: { opacity: 0, x: -20 },
+                  visible: { opacity: 1, x: 0 }
+                }}
+                className="text-sky-700 font-mono text-[11px] font-bold tracking-[0.4em] mb-6 block uppercase opacity-70"
               >
                 // ORIGIN STORY
               </motion.span>
               
               <motion.h2 
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-                className="text-5xl md:text-8xl font-display font-black leading-[0.95] tracking-tight mb-10"
+                variants={{
+                  hidden: { opacity: 0, y: 30 },
+                  visible: { opacity: 1, y: 0 }
+                }}
+                className="text-6xl md:text-8xl font-display font-black leading-[0.9] tracking-tighter mb-12 text-[#0a0a0a] uppercase"
               >
-                Code that <span className="opacity-40 italic">actually</span> matters.
+                Crafting <span className="opacity-30 italic font-serif">Intentional</span> Products.
               </motion.h2>
 
               <motion.div 
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                transition={{ delay: 0.2 }}
-                className="space-y-8 text-lg md:text-xl text-white/50 leading-relaxed font-light max-w-xl"
+                variants={{
+                  hidden: { opacity: 0, y: 20 },
+                  visible: { opacity: 1, y: 0 }
+                }}
+                className="space-y-8 text-lg md:text-xl text-[#64748b] leading-[1.8] font-sans font-light max-w-xl"
               >
-                <p>I'm Alins Binu, a Computer Science student from the hills of <span className="text-white font-medium italic">Kattappana, Idukki.</span> I don't just study code — I build real products that real people use every day.</p>
-                <p>From a custom church app serving an entire community to a car dashboard running off a smartphone, I chase ideas that bridge the gap between what exists and what should exist.</p>
+                <p>I'm Alins Binu, a Computer Science student from <span className="text-[#0a0a0a] font-medium italic underline decoration-sky-700/20 underline-offset-4">Kattappana, Idukki.</span> I don't just study code — I build real products that solve real problems.</p>
+                <p>From custom infrastructure for communities to specialized mobile interfaces, I focus on the intersection of utility and high-end design. I thrive at the edge of "impossible" ideas.</p>
               </motion.div>
-            </div>
+            </motion.div>
 
-            <div className="grid grid-cols-3 gap-6 md:gap-12 pt-12 border-t border-white/10">
-                {STATS.map((stat, i) => (
+            <motion.div 
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={{
+                hidden: { opacity: 0 },
+                visible: {
+                  opacity: 1,
+                  transition: {
+                    staggerChildren: 0.1,
+                    delayChildren: 0.3
+                  }
+                }
+              }}
+              className="grid grid-cols-3 gap-6 md:gap-12 pt-12 border-t border-black/[0.06]"
+            >
+                {STATS.map((stat) => (
                   <motion.div 
                     key={stat.label} 
-                    initial={{ opacity: 0, y: 30 }} 
-                    whileInView={{ opacity: 1, y: 0 }} 
-                    transition={{ delay: i * 0.1 }}
+                    variants={{
+                      hidden: { opacity: 0, y: 20 },
+                      visible: { opacity: 1, y: 0 }
+                    }}
                   >
-                     <div className="text-4xl md:text-5xl font-display font-black text-white mb-2 drop-shadow-glow-sm">{stat.value}</div>
-                     <div className="text-[9px] font-black tracking-[0.4em] text-white/30 uppercase">{stat.label}</div>
+                     <div className="text-4xl md:text-6xl font-display font-black text-[#0a0a0a] mb-2">{stat.value}</div>
+                     <div className="text-[9px] font-mono font-bold tracking-[0.2em] text-[#64748b] uppercase leading-relaxed opacity-60">{stat.label}</div>
                   </motion.div>
                 ))}
-            </div>
+            </motion.div>
 
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              className="flex gap-8 pt-4"
+              viewport={{ once: true }}
+              transition={{ delay: 0.6 }}
+              className="flex items-center gap-10 pt-4"
             >
               <Magnetic strength={20}>
-                <button className="bg-white text-midnight px-12 py-5 rounded-full font-black text-[10px] tracking-widest uppercase flex items-center gap-4 hover:bg-sky-blue-glow transition-all shadow-2xl">
+                <button className="bg-[#0a0a0a] text-white px-12 py-5 rounded-full font-mono font-bold text-[10px] tracking-widest uppercase flex items-center gap-4 hover:bg-sky-700 transition-all shadow-xl">
                   Resume <Download className="w-4 h-4" />
                 </button>
               </Magnetic>
               
-              <button className="text-white/40 hover:text-white font-bold text-[10px] tracking-widest uppercase transition-colors">
+              <button className="text-[#64748b] hover:text-[#0a0a0a] font-mono font-bold text-[10px] tracking-widest uppercase transition-colors border-b border-black/10 pb-1">
                 Read Blog
               </button>
             </motion.div>
