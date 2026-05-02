@@ -22,6 +22,7 @@ interface Bubble {
   img: HTMLImageElement;
   isDragging: boolean;
   isHovered: boolean;
+  ring: 1 | 2 | 3;
 }
 
 const SKILL_DATA = {
@@ -42,6 +43,7 @@ const SKILL_DATA = {
     { id: 'js', name: 'JavaScript', level: 85, desc: 'Web interactivity' },
     { id: 'html', name: 'HTML5', level: 95, desc: 'Semantic structure' },
     { id: 'css', name: 'CSS3', level: 90, desc: 'Stunning layouts' },
+    { id: 'mysql', name: 'SQL', level: 80, desc: 'Database Architecture' }
   ]
 };
 
@@ -102,7 +104,8 @@ export const SkillsUniverse = () => {
             id: skill.id,
             img,
             isDragging: false,
-            isHovered: false
+            isHovered: false,
+            ring: (ringIdx + 1) as 1 | 2 | 3
           });
         });
       });
@@ -117,22 +120,37 @@ export const SkillsUniverse = () => {
       const centerY = height / 2;
 
       // Draw Sun (Core)
-      const sunGradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, 70);
-      sunGradient.addColorStop(0, 'rgba(3, 105, 161, 0.08)');
+      const sunGradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, 80);
+      sunGradient.addColorStop(0, 'rgba(56,189,248,0.25)');
+      sunGradient.addColorStop(0.5, 'rgba(56,189,248,0.08)');
       sunGradient.addColorStop(1, 'transparent');
+      ctx.shadowBlur = 30;
+      ctx.shadowColor = 'rgba(56,189,248,0.4)';
       ctx.fillStyle = sunGradient;
       ctx.beginPath();
-      ctx.arc(centerX, centerY, 70, 0, Math.PI * 2);
+      ctx.arc(centerX, centerY, 80, 0, Math.PI * 2);
       ctx.fill();
 
       // Draw Rings
-      ctx.strokeStyle = 'rgba(0, 0, 0, 0.04)';
       ctx.lineWidth = 1;
-      [120, 220, 320].forEach(r => {
-        ctx.beginPath();
-        ctx.arc(centerX, centerY, r, 0, Math.PI * 2);
-        ctx.stroke();
-      });
+      
+      // Ring 1 (innermost) — sky blue glow
+      ctx.strokeStyle = 'rgba(56,189,248,0.15)';
+      ctx.shadowBlur = 8;
+      ctx.shadowColor = 'rgba(56,189,248,0.3)';
+      ctx.beginPath(); ctx.arc(centerX, centerY, 120, 0, Math.PI * 2); ctx.stroke();
+
+      // Ring 2 — amber
+      ctx.strokeStyle = 'rgba(251,191,36,0.12)';
+      ctx.shadowColor = 'rgba(251,191,36,0.2)';
+      ctx.beginPath(); ctx.arc(centerX, centerY, 220, 0, Math.PI * 2); ctx.stroke();
+
+      // Ring 3 — orange
+      ctx.strokeStyle = 'rgba(249,115,22,0.10)';
+      ctx.shadowColor = 'rgba(249,115,22,0.15)';
+      ctx.beginPath(); ctx.arc(centerX, centerY, 320, 0, Math.PI * 2); ctx.stroke();
+      
+      ctx.shadowBlur = 0;
 
       // Update and Draw Bubbles
       let topHovered: Bubble | null = null;
@@ -170,6 +188,13 @@ export const SkillsUniverse = () => {
         ctx.save();
         ctx.shadowBlur = 10;
         ctx.shadowColor = 'rgba(0, 0, 0, 0.05)';
+        
+        if (topHovered === bubble) {
+          ctx.shadowBlur = 25;
+          if (bubble.ring === 1) ctx.shadowColor = 'rgba(56,189,248,0.5)';
+          else if (bubble.ring === 2) ctx.shadowColor = 'rgba(251,191,36,0.4)';
+          else if (bubble.ring === 3) ctx.shadowColor = 'rgba(249,115,22,0.35)';
+        }
         
         ctx.beginPath();
         ctx.arc(bubble.x, bubble.y, bubble.size / 2, 0, Math.PI * 2);

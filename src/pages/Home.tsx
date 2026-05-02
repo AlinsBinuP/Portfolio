@@ -4,6 +4,8 @@ import { ArrowRight, Globe, User, Cpu, Code, BookOpen, Zap, ExternalLink } from 
 import { Link } from 'react-router-dom';
 import { Magnetic } from '../components/Magnetic';
 import { SkillSphere } from '../components/SkillSphere';
+import { ScrollPhoto } from '../components/ScrollPhoto';
+import { FlutterGame } from '../components/FlutterGame';
 
 const InteractiveName = () => {
   const alins = "ALINS".split("");
@@ -81,7 +83,8 @@ const InteractiveName = () => {
             className={`inline-block cursor-none px-[0.01em] ${word === 'binu' ? 'text-hollow-heavy' : ''}`}
             style={{ 
               WebkitTextStrokeColor: word === 'binu' && isHovered ? '#0369a1' : undefined,
-              transition: 'color 0.2s, -webkit-text-stroke-color 0.2s' 
+              textShadow: word === 'binu' && isHovered ? '0 0 30px rgba(251,191,36,0.3)' : undefined,
+              transition: 'color 0.2s, -webkit-text-stroke-color 0.2s, text-shadow 0.2s' 
             }}
           >
             {char}
@@ -148,7 +151,7 @@ const InteractiveRole = () => {
                     ease: [0.16, 1, 0.3, 1] 
                   }}
                   whileHover={{ y: -8, color: "#0369a1", scale: 1.1 }}
-                  className="inline-block font-accent font-extrabold text-[clamp(32px,5vw,72px)] text-[#0a0a0a] leading-[0.9] tracking-[-0.03em] cursor-default select-none"
+                  className="inline-block font-accent font-extrabold text-[clamp(32px,5vw,72px)] text-[#0a0a0a] leading-[0.9] tracking-[-0.03em] cursor-default select-none hover:drop-shadow-[0_0_12px_rgba(56,189,248,0.4)]"
                 >
                   {char}
                 </motion.span>
@@ -168,7 +171,7 @@ const InteractiveRole = () => {
                     ease: [0.16, 1, 0.3, 1] 
                   }}
                   whileHover={{ y: -8, scale: 1.1, color: "#0369a1" }}
-                  className="inline-block font-accent font-extrabold text-hollow-thin text-[clamp(22px,3.8vw,56px)] leading-[0.9] tracking-[-0.02em] cursor-default select-none"
+                  className="inline-block font-accent font-extrabold text-hollow-thin text-[clamp(22px,3.8vw,56px)] leading-[0.9] tracking-[-0.02em] cursor-default select-none hover:drop-shadow-[0_0_12px_rgba(56,189,248,0.4)]"
                   style={{ 
                     transition: 'color 0.2s, -webkit-text-stroke-color 0.2s' 
                   }}
@@ -190,8 +193,21 @@ export const Home = () => {
   const { scrollY } = useScroll();
   
   const textY = useTransform(scrollY, [0, 800], [0, 250]);
-  const photoY = useTransform(scrollY, [0, 800], [0, -100]);
   const nameY = useTransform(scrollY, [0, 800], [0, -150]);
+  const heroScale = useTransform(scrollY, [0, 600], [1, 0.92]);
+  const heroBlur = useTransform(scrollY, [0, 400], [0, 4]);
+  const nameZ = useTransform(scrollY, [0, 600], [0, -80]);
+  const bgParallax = useTransform(scrollY, [0, 800], [0, 120]);
+
+  const [clickCount, setClickCount] = useState(0);
+  const [gameActive, setGameActive] = useState(false);
+
+  useEffect(() => {
+    if (clickCount >= 3) {
+      setGameActive(true);
+      setClickCount(0);
+    }
+  }, [clickCount]);
 
   // Scroll animations for the 3D Sphere
   const sphereScale = useTransform(scrollY, [0, 300], [1, 0.2]);
@@ -199,7 +215,7 @@ export const Home = () => {
   const sphereY = useTransform(scrollY, [0, 500], [0, 300]);
 
   return (
-    <div className="relative min-h-screen bg-white text-[#0a0a0a]" ref={containerRef}>
+    <div className="relative min-h-screen bg-transparent text-[#0a0a0a]" ref={containerRef}>
       {/* Background Depth */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
         {/* Grain Effect Overlay */}
@@ -220,11 +236,9 @@ export const Home = () => {
           }}
         />
         {/* Madison warm radial gradient - sky blue depth */}
-        <div 
-          className="absolute inset-0"
-          style={{ 
-            background: 'radial-gradient(ellipse at 58% 35%, #b8e0f7 0%, #d4edfb 20%, #e8f5fd 45%, #f5faff 70%, #ffffff 90%)'
-          }}
+        <motion.div 
+          className="absolute inset-0 hero-gradient"
+          style={{ y: bgParallax }}
         />
         
         {/* Ghost Script Text */}
@@ -240,40 +254,20 @@ export const Home = () => {
         </div>
         
         {/* Pervasive Vibrant Glows */}
-        <motion.div 
-          animate={{ 
-            opacity: [0.7, 1, 0.7],
-            scale: [1, 1.5, 1],
-            rotate: [0, 90, 0]
-          }}
-          transition={{ duration: 20, repeat: Infinity }}
-          className="absolute top-[-40%] left-[-20%] w-[120vw] h-[120vw] bg-sky-400/50 blur-[250px] rounded-full pointer-events-none"
+        <motion.div animate={{ opacity:[0.6,1,0.6], scale:[1,1.4,1], rotate:[0,90,0] }}
+          transition={{ duration:18, repeat:Infinity }}
+          className="absolute -top-40 right-[-10%] w-[90vw] h-[90vw] rounded-full pointer-events-none"
+          style={{ background: 'radial-gradient(circle, rgba(56,189,248,0.25) 0%, transparent 65%)', filter: 'blur(80px)' }}
         />
-        <motion.div 
-          animate={{ 
-            opacity: [0.6, 0.9, 0.6],
-            scale: [1, 1.4, 1],
-            rotate: [0, -90, 0]
-          }}
-          transition={{ duration: 25, repeat: Infinity, delay: 1 }}
-          className="absolute top-[20%] right-[-30%] w-[100vw] h-[100vw] bg-orange-400/40 blur-[280px] rounded-full pointer-events-none"
+        <motion.div animate={{ opacity:[0.5,0.8,0.5], scale:[1,1.5,1] }}
+          transition={{ duration:22, repeat:Infinity, delay:3 }}
+          className="absolute bottom-[-20%] left-[-10%] w-[70vw] h-[70vw] rounded-full pointer-events-none"
+          style={{ background: 'radial-gradient(circle, rgba(251,191,36,0.18) 0%, transparent 65%)', filter: 'blur(100px)' }}
         />
-        <motion.div 
-          animate={{ 
-            opacity: [0.5, 0.8, 0.5],
-            scale: [1, 1.6, 1]
-          }}
-          transition={{ duration: 30, repeat: Infinity, delay: 2 }}
-          className="absolute bottom-[-40%] left-[10%] w-[130vw] h-[130vw] bg-amber-200/50 blur-[300px] rounded-full pointer-events-none"
-        />
-        <motion.div 
-          animate={{ 
-            opacity: [0.4, 0.7, 0.4],
-            scale: [1, 1.3, 1],
-            x: [0, 50, 0]
-          }}
-          transition={{ duration: 15, repeat: Infinity }}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] h-[90vw] bg-blue-300/30 blur-[350px] rounded-full pointer-events-none"
+        <motion.div animate={{ opacity:[0.4,0.7,0.4], x:[0,30,0], y:[0,-20,0] }}
+          transition={{ duration:14, repeat:Infinity, delay:1 }}
+          className="absolute top-[40%] right-[5%] w-[50vw] h-[50vw] rounded-full pointer-events-none"
+          style={{ background: 'radial-gradient(circle, rgba(249,115,22,0.12) 0%, transparent 65%)', filter: 'blur(90px)' }}
         />
 
         {/* Abstract Floating Icons */}
@@ -312,7 +306,8 @@ export const Home = () => {
         </div>
       </div>
 
-      <section className="relative h-screen flex items-center justify-center overflow-hidden">
+      <section id="hero-section" className="relative h-[150vh] w-full">
+        <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden">
         {/* Scroll-reactive Background Skill Sphere */}
         <motion.div 
           style={{ 
@@ -366,7 +361,13 @@ export const Home = () => {
                     I AM
                  </motion.span>
                  
-                 <InteractiveName />
+                 <motion.div 
+                   className="name-layer"
+                   style={{ y: nameY, scale: heroScale, filter: heroBlur.get() > 0 ? `blur(${heroBlur.get()}px)` : undefined, z: nameZ }}
+                   onClick={() => setClickCount(c => c + 1)}
+                 >
+                   <InteractiveName />
+                 </motion.div>
                  
                  <motion.div
                    initial={{ opacity: 0, x: -20 }}
@@ -413,28 +414,8 @@ export const Home = () => {
            </div>
         </div>
 
-        {/* User Photo */}
-        <motion.div 
-          initial={{ opacity: 0, x: 100 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 2, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          className="absolute right-0 bottom-0 h-full z-[5] pointer-events-none"
-        >
-          <div className="h-full relative overflow-hidden">
-             <img 
-               src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=1500" 
-               className="h-full w-auto object-cover object-center" 
-               style={{ 
-                 mixBlendMode: 'multiply',
-                 WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 20%, black 80%, transparent 100%), linear-gradient(to top, transparent 0%, black 20%)',
-                 maskImage: 'linear-gradient(to right, transparent 0%, black 20%, black 80%, transparent 100%), linear-gradient(to top, transparent 0%, black 20%)',
-                 WebkitMaskComposite: 'source-in',
-                 maskComposite: 'intersect'
-               }}
-               alt="Alins" 
-             />
-          </div>
-        </motion.div>
+        {/* User Photo with Pinned 3D Parallax */}
+        <ScrollPhoto />
 
         {/* Global Horizon Line */}
         <motion.div 
@@ -443,12 +424,25 @@ export const Home = () => {
            transition={{ duration: 2, delay: 1 }}
            className="absolute bottom-[20%] left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-black/5 to-transparent z-10"
         />
+        <div className="absolute bottom-4 right-4 text-black/[0.15] font-mono text-[9px] pointer-events-none">
+          // click the name 3× for a surprise
+        </div>
+        </div>
       </section>
+
+      <FlutterGame active={gameActive} onClose={() => setGameActive(false)} />
 
       {/* Content Sections */}
       <div className="relative z-20">
         {/* 01 // IDENTITY */}
-        <section className="bg-white px-8 md:px-20 py-40 border-t border-black/[0.06] overflow-hidden relative">
+        <motion.section 
+          initial={{ opacity: 0, rotateX: 8, y: 60, transformPerspective: 1200 }}
+          whileInView={{ opacity: 1, rotateX: 0, y: 0 }}
+          viewport={{ once: true, margin: '-100px' }}
+          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+          style={{ transformOrigin: 'top center' }}
+          className="bg-transparent px-8 md:px-20 py-40 border-t border-black/[0.06] overflow-hidden relative"
+        >
           <div className="absolute top-1/4 -left-20 w-80 h-80 bg-sky-100/30 blur-[100px] pointer-events-none rounded-full" />
           
           {/* Tech Ticker */}
@@ -547,10 +541,17 @@ export const Home = () => {
                 </div>
              </motion.div>
           </div>
-        </section>
+        </motion.section>
 
         {/* 02 // ARCHIVE */}
-        <section className="bg-white px-8 md:px-20 py-40 border-t border-black/[0.06] relative overflow-hidden">
+        <motion.section 
+          initial={{ opacity: 0, rotateX: 8, y: 60, transformPerspective: 1200 }}
+          whileInView={{ opacity: 1, rotateX: 0, y: 0 }}
+          viewport={{ once: true, margin: '-100px' }}
+          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+          style={{ transformOrigin: 'top center' }}
+          className="bg-transparent px-8 md:px-20 py-40 border-t border-black/[0.06] relative overflow-hidden"
+        >
           <div className="absolute bottom-1/4 -right-20 w-80 h-80 bg-orange-100/20 blur-[100px] pointer-events-none rounded-full" />
           
           <div className="max-w-7xl mx-auto space-y-20">
@@ -623,10 +624,17 @@ export const Home = () => {
                 </div>
              </div>
           </div>
-        </section>
+        </motion.section>
 
         {/* 03 // CAPABILITIES */}
-        <section className="bg-white px-8 md:px-20 pt-40 pb-20 border-t border-black/[0.06] relative overflow-hidden">
+        <motion.section 
+          initial={{ opacity: 0, rotateX: 8, y: 60, transformPerspective: 1200 }}
+          whileInView={{ opacity: 1, rotateX: 0, y: 0 }}
+          viewport={{ once: true, margin: '-100px' }}
+          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+          style={{ transformOrigin: 'top center' }}
+          className="bg-transparent px-8 md:px-20 pt-40 pb-20 border-t border-black/[0.06] relative overflow-hidden"
+        >
           {/* Subtle background glow */}
           <div className="absolute -right-20 top-0 w-96 h-96 bg-sky-100/30 blur-[120px] rounded-full pointer-events-none" />
           
@@ -692,10 +700,17 @@ export const Home = () => {
                 </div>
              </div>
           </div>
-        </section>
+        </motion.section>
 
         {/* 04 // EXPERIMENT */}
-        <section className="bg-white px-8 md:px-20 pt-20 pb-40 border-t border-black/[0.06] relative">
+        <motion.section 
+          initial={{ opacity: 0, rotateX: 8, y: 60, transformPerspective: 1200 }}
+          whileInView={{ opacity: 1, rotateX: 0, y: 0 }}
+          viewport={{ once: true, margin: '-100px' }}
+          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+          style={{ transformOrigin: 'top center' }}
+          className="bg-transparent px-8 md:px-20 pt-20 pb-40 border-t border-black/[0.06] relative"
+        >
           {/* Side Glows */}
           <div className="absolute top-0 right-0 w-80 h-80 bg-orange-100/30 blur-[100px] pointer-events-none rounded-full" />
           <div className="absolute bottom-0 left-0 w-80 h-80 bg-sky-100/30 blur-[100px] pointer-events-none rounded-full" />
@@ -800,12 +815,19 @@ export const Home = () => {
                    <div className="w-[400px] h-[400px] border border-sky-700/20 rounded-full animate-[spin_30s_linear_infinite]" />
                    <div className="absolute w-[300px] h-[300px] border border-sky-700/10 rounded-full animate-[spin_40s_linear_infinite_reverse]" />
                 </div>
-             </div>
-          </div>
-        </section>
+              </div>
+           </div>
+        </motion.section>
 
         {/* 05 // FOUNDATION */}
-        <section className="bg-white px-8 md:px-20 py-40 border-t border-black/[0.06] relative overflow-hidden">
+        <motion.section 
+          initial={{ opacity: 0, rotateX: 8, y: 60, transformPerspective: 1200 }}
+          whileInView={{ opacity: 1, rotateX: 0, y: 0 }}
+          viewport={{ once: true, margin: '-100px' }}
+          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+          style={{ transformOrigin: 'top center' }}
+          className="bg-transparent px-8 md:px-20 py-40 border-t border-black/[0.06] relative overflow-hidden"
+        >
           <div className="absolute top-1/2 -right-40 w-96 h-96 bg-amber-100/20 blur-[120px] pointer-events-none rounded-full" />
           <div className="absolute bottom-0 -left-20 w-64 h-64 bg-sky-100/30 blur-[100px] pointer-events-none rounded-full" />
           
@@ -867,7 +889,7 @@ export const Home = () => {
                 </div>
              </Link>
           </div>
-        </section>
+        </motion.section>
 
         {/* 06 // CONNECT - CREATIVE FOOTER CALL TO ACTION */}
         <section className="bg-[#0a0a0a] text-white px-8 md:px-20 py-60 relative overflow-hidden">

@@ -4,7 +4,7 @@ import { motion, useScroll } from 'framer-motion';
 import { ABLogo } from './ABLogo';
 import { Magnetic } from './Magnetic';
 
-import { Github, Linkedin, Twitter, Instagram } from 'lucide-react';
+import { Github, Linkedin, Mail, Instagram } from 'lucide-react';
 
 const NAV_LINKS = [
   { label: 'Home', path: '/' },
@@ -15,13 +15,13 @@ const NAV_LINKS = [
 ];
 
 const SOCIALS = [
-  { icon: Github, label: 'GitHub', url: 'https://github.com/alinsbinu' },
-  { icon: Linkedin, label: 'LinkedIn', url: 'https://linkedin.com/in/alinsbinu' },
-  { icon: Twitter, label: 'Twitter', url: '#' }
+  { icon: Github, label: 'GitHub', url: 'https://github.com/AlinsBinuP' },
+  { icon: Linkedin, label: 'LinkedIn', url: 'https://www.linkedin.com/in/alinsbinu/' },
+  { icon: Mail, label: 'Email', url: 'https://mail.google.com/mail/?view=cm&fs=1&to=alinsbinukochuthovala@gmail.com' }
 ];
 
 export const Navbar = () => {
-  const { scrollY } = useScroll();
+  const { scrollY, scrollYProgress } = useScroll();
   const [isScrolled, setIsScrolled] = React.useState(false);
 
   React.useEffect(() => {
@@ -88,6 +88,11 @@ export const Navbar = () => {
           Contact
         </NavLink>
       </Magnetic>
+
+      <motion.div
+        className="absolute bottom-0 left-0 h-[2px] bg-gradient-to-r from-sky-400 via-amber-300 to-orange-400 origin-left"
+        style={{ scaleX: scrollYProgress, width: '100%' }}
+      />
     </motion.nav>
   );
 };

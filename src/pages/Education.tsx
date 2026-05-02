@@ -43,7 +43,7 @@ export const Education = () => {
   const x = useTransform(scrollYProgress, [0, 1], ["0%", "-66.6%"]);
 
   return (
-    <div ref={containerRef} className="relative h-[300vh] bg-white overflow-visible">
+    <div ref={containerRef} className="relative h-[300vh] bg-transparent overflow-visible">
       <div className="sticky top-0 h-screen w-full flex items-center overflow-hidden">
         {/* Background Depth */}
         <div className="absolute inset-0 z-0 pointer-events-none">
@@ -76,7 +76,16 @@ export const Education = () => {
                  </motion.span>
               </div>
 
-              <div className="relative z-10 max-w-4xl w-full">
+              <motion.div 
+                className="relative z-10 max-w-4xl w-full"
+                style={{
+                  rotateY: useTransform(scrollYProgress, 
+                    [(i)/EDUCATION.length, (i+0.5)/EDUCATION.length, (i+1)/EDUCATION.length], 
+                    ['-15deg', '0deg', '15deg']
+                  ),
+                  transformPerspective: 1000
+                }}
+              >
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                    <motion.div
                      initial={{ opacity: 0, x: -50 }}
@@ -119,7 +128,7 @@ export const Education = () => {
                       </div>
                    </motion.div>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Floating year above station */}
               <motion.div 

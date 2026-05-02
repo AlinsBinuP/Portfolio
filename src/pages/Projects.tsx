@@ -12,9 +12,10 @@ const PROJECTS = [
     tags: ['Flutter', 'Dart', 'Firebase', 'Android', 'iOS'],
     category: 'FLUTTER · CHURCH HUB',
     color: '#3b82f6',
-    image: "https://images.unsplash.com/photo-1438232992991-995b7058bbb3?q=80&w=1200",
+    image: "/1776942620907.png",
     mockup: "church",
-    featured: true
+    featured: true,
+    liveUrl: "https://play.google.com/store/apps/details?id=in.cse.ajce.sundayschool&hl=en_IN"
   },
   {
     id: 'prism-studio',
@@ -24,7 +25,7 @@ const PROJECTS = [
     tags: ['Web App', 'AI', 'Full Stack', 'Vercel'],
     category: 'WEB · AI ECOSYSTEM',
     color: '#8b5cf6',
-    image: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=1200",
+    image: "/image_fd8fb534.png",
     mockup: "prism",
     featured: true,
     liveUrl: 'https://prismstudioai.vercel.app/',
@@ -38,7 +39,7 @@ const PROJECTS = [
     tags: ['Flutter', 'Dart', 'GPS API', 'Google Maps', 'Android', 'iOS'],
     category: 'FLUTTER · AUTOMOTIVE',
     color: '#0ea5e9',
-    image: "https://images.unsplash.com/photo-1549233861-46821219cd5b?q=80&w=1200",
+    image: "/aauto.jpg",
     mockup: "speedometer",
     featured: false
   }
@@ -83,6 +84,30 @@ const ProjectCard = ({ project, onClick, className = "" }: { project: typeof PRO
         <div className="absolute inset-0 bg-sky-900/0 group-hover:bg-sky-900/5 transition-colors duration-500" />
         <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none ring-1 ring-inset ring-white/20 rounded-[40px]" />
 
+        {project.id === 'cardash' && (
+          <motion.div initial={{ opacity: 0 }} whileHover={{ opacity: 1 }} className="absolute top-8 right-8 z-10 pointer-events-none">
+            <svg width="80" height="80" viewBox="0 0 80 80">
+              <circle cx="40" cy="40" r="35" stroke="rgba(56,189,248,0.3)" strokeWidth="2" fill="none"/>
+              <motion.line x1="40" y1="40" x2="62" y2="20"
+                stroke="#38bdf8" strokeWidth="2" strokeLinecap="round"
+                animate={{ rotate: [-40, 40, -40] }}
+                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                style={{ transformOrigin: '40px 40px' }}
+              />
+              <text x="40" y="56" textAnchor="middle" fontSize="10" fill="rgba(56,189,248,0.8)">km/h</text>
+            </svg>
+          </motion.div>
+        )}
+        
+        {project.id === 'prism-studio' && (
+          <motion.div
+            animate={{ rotate: 360 }}
+            transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+            className="absolute top-8 right-8 w-16 h-16 rounded-full opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
+            style={{ background: 'conic-gradient(from 0deg, #7c3aed, #06b6d4, #f59e0b, #7c3aed)' }}
+          />
+        )}
+
         <div className="absolute inset-x-0 bottom-0 p-10 flex justify-end pointer-events-none transform translate-z-10">
            {project.mockup === "speedometer" && <Gauge className="w-24 h-24 text-[#0369a1] opacity-5 group-hover:opacity-20 transition-opacity" />}
            {project.mockup === "church" && <Church className="w-24 h-24 text-[#f59e0b] opacity-5 group-hover:opacity-20 transition-opacity" />}
@@ -125,7 +150,7 @@ export const Projects = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="relative min-h-screen bg-white pt-48 pb-60 px-6 md:px-20 overflow-hidden"
+      className="relative min-h-screen bg-transparent pt-48 pb-60 px-6 md:px-20 overflow-hidden"
     >
       {/* Background depth & Hover Glow Effect */}
       <div className="absolute inset-0 z-0 pointer-events-none">
@@ -252,17 +277,11 @@ export const Projects = () => {
                     </div>
 
                     <div className="flex flex-wrap gap-6 pt-10">
-                       {selectedProject.liveUrl ? (
+                       {selectedProject.liveUrl && (
                          <Magnetic strength={20}>
                            <a href={selectedProject.liveUrl} target="_blank" rel="noreferrer" className="bg-[#0369a1] text-white px-10 py-5 rounded-full font-black text-[10px] tracking-widest uppercase flex items-center gap-4 hover:bg-[#075985] transition-all shadow-xl">
-                             Visit Website <ExternalLink className="w-4 h-4" />
+                             Visit Link <ExternalLink className="w-4 h-4" />
                            </a>
-                         </Magnetic>
-                       ) : (
-                         <Magnetic strength={20}>
-                           <button className="bg-[#0a0a0a] text-white px-10 py-5 rounded-full font-black text-[10px] tracking-widest uppercase flex items-center gap-4 hover:bg-[#0369a1] transition-all shadow-xl">
-                             Request Demo <Box className="w-4 h-4" />
-                           </button>
                          </Magnetic>
                        )}
                        

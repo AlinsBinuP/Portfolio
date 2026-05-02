@@ -11,6 +11,7 @@ import { CinematicCursor } from './components/CinematicCursor';
 import { StarBackground } from './components/StarBackground';
 import { Preloader } from './components/Preloader';
 import { CinematicOverlay } from './components/CinematicOverlay';
+import { GlobalMeshBackground } from './components/GlobalMeshBackground';
 import { Home } from './pages/Home';
 import { About } from './pages/About';
 import { Projects } from './pages/Projects';
@@ -56,6 +57,7 @@ export default function App() {
       </AnimatePresence>
 
       <div className="relative min-h-screen">
+        <GlobalMeshBackground />
         <CinematicOverlay />
         <div className="noise-overlay" />
         <CinematicCursor />
@@ -91,8 +93,8 @@ export default function App() {
               </div>
 
               <div className="flex gap-12 font-bold text-space-black/40 text-[10px] tracking-widest uppercase">
-                <a href="https://github.com/alinsbinu" className="hover:text-sky-blue-vibrant transition-colors">GitHub</a>
-                <a href="https://linkedin.com/in/alinsbinu" className="hover:text-sky-blue-vibrant transition-colors text-sky-700">LinkedIn</a>
+                <a href="https://github.com/AlinsBinuP" className="hover:text-sky-blue-vibrant transition-colors">GitHub</a>
+                <a href="https://www.linkedin.com/in/alinsbinu/" className="hover:text-sky-blue-vibrant transition-colors text-sky-700">LinkedIn</a>
               </div>
             </footer>
           </>

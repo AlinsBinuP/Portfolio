@@ -31,7 +31,7 @@ import { SkillsUniverse } from '../components/SkillsUniverse';
 
 export const Skills = () => {
   return (
-    <div className="relative min-h-screen pt-48 pb-60 overflow-hidden bg-white">
+    <div className="relative min-h-screen pt-48 pb-60 overflow-hidden bg-transparent">
       {/* Background depth */}
       <div className="absolute inset-0 z-0 pointer-events-none">
          <div className="absolute top-0 left-0 w-full h-[60vh] bg-[radial-gradient(ellipse_at_center,_#c8e8ff_0%,_transparent_70%)] opacity-30" />
@@ -73,7 +73,7 @@ export const Skills = () => {
            {[
              { label: 'Core Stack', count: '2', color: 'bg-sky-700' },
              { label: 'Tools', count: '4', color: 'bg-violet-600' },
-             { label: 'Languages', count: '5', color: 'bg-emerald-500' }
+             { label: 'Languages', count: '6', color: 'bg-emerald-500' }
            ].map(cat => (
              <span key={cat.label} className="px-6 py-2.5 bg-white border border-black/[0.06] shadow-sm rounded-xl flex items-center gap-4">
                <span className={`w-2 h-2 rounded-full ${cat.color}`} />

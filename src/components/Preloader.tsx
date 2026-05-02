@@ -37,7 +37,7 @@ export const Preloader = ({ onComplete }: { onComplete: () => void }) => {
       <div className="relative flex flex-col items-center">
         {/* AB Monogram Logo - No container circle as per specs */}
         <div className="mb-12">
-          <ABLogo size={100} inverted={true} />
+          <ABLogo size={100} inverted={false} />
         </div>
 
         {/* Name Text */}
