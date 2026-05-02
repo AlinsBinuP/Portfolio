@@ -5,7 +5,7 @@ export const ScrollPhoto = () => {
   const bgRef = useRef<HTMLImageElement>(null);
   const midRef = useRef<HTMLImageElement>(null);
   const fgRef = useRef<HTMLImageElement>(null);
-  const requestRef = useRef<number>();
+  const requestRef = useRef<number>(0);
 
   useEffect(() => {
     let currentX = 0;
