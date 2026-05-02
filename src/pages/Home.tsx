@@ -218,8 +218,7 @@ export const Home = () => {
     <div className="relative min-h-screen bg-transparent text-[#0a0a0a]" ref={containerRef}>
       {/* Background Depth */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-        {/* Grain Effect Overlay */}
-        <div className="absolute inset-0 opacity-[0.03] z-[100] pointer-events-none mix-blend-multiply" style={{ backgroundImage: 'url("https://grainy-gradients.vercel.app/noise.svg")' }}></div>
+        {/* Grain Effect Overlay removed for performance */}
         
         {/* Scanline Effect */}
         <div className="scanline-effect" />
@@ -403,7 +402,7 @@ export const Home = () => {
                    transition={{ delay: 1, duration: 1 }}
                    className="mt-6 text-sm font-light font-sans text-[#64748b] leading-[1.8] max-w-[340px]"
                  >
-                    Flutter developer from Kattappana, Kerala — building mobile apps that real people use every day.
+                    Flutter developer specializing in building scalable, high-performance mobile applications that solve real-world problems.
                  </motion.p>
               </div>
 
@@ -452,9 +451,9 @@ export const Home = () => {
                transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
                className="flex gap-20 pr-20"
              >
-                <span>Flutter Dart Firebase Rust Golang Node.js React Next.js</span>
-                <span>Flutter Dart Firebase Rust Golang Node.js React Next.js</span>
-                <span>Flutter Dart Firebase Rust Golang Node.js React Next.js</span>
+                <span>Flutter Dart Firebase Python Javascript HTML CSS Java C</span>
+                <span>Flutter Dart Firebase Python Javascript HTML CSS Java C</span>
+                <span>Flutter Dart Firebase Python Javascript HTML CSS Java C</span>
              </motion.div>
           </div>
 

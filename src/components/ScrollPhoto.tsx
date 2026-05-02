@@ -25,6 +25,12 @@ export const ScrollPhoto = () => {
       targetY = 0;
     };
 
+    let scrollY = window.scrollY;
+    const handleScroll = () => {
+      scrollY = window.scrollY;
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
     if (hero) {
       hero.addEventListener('mousemove', handleMouseMove);
       hero.addEventListener('mouseleave', handleMouseLeave);
@@ -35,14 +41,11 @@ export const ScrollPhoto = () => {
       currentX += (targetX - currentX) * 0.1;
       currentY += (targetY - currentY) * 0.1;
 
-      // Calculate progress through the pinned 400vh section
+      // Calculate progress without triggering layout thrashing
       let progress = 0;
-      if (hero) {
-        const rect = hero.getBoundingClientRect();
-        const scrollDistance = rect.height - window.innerHeight;
-        if (scrollDistance > 0) {
-          progress = Math.max(0, Math.min(1, -rect.top / scrollDistance));
-        }
+      const scrollDistance = window.innerHeight * 0.5; // Hero is 150vh, scrollable is 50vh
+      if (scrollDistance > 0) {
+        progress = Math.max(0, Math.min(1, scrollY / scrollDistance));
       }
 
       // Base Layer (alinsbinuimg.jpg) - Anchored, slow zoom
@@ -83,6 +86,7 @@ export const ScrollPhoto = () => {
     requestRef.current = requestAnimationFrame(render);
 
     return () => {
+      window.removeEventListener('scroll', handleScroll);
       if (hero) {
         hero.removeEventListener('mousemove', handleMouseMove);
         hero.removeEventListener('mouseleave', handleMouseLeave);
