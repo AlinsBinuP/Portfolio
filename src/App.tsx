@@ -48,7 +48,7 @@ export default function App() {
   const onCompleteStable = React.useCallback(() => setIsLoading(false), []);
 
   return (
-    <Router basename="/Portfolio">
+    <Router>
       <ScrollToTop />
       <AnimatePresence>
         {isLoading && (
