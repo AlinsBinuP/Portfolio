@@ -28,32 +28,39 @@ const getSizeValue = (size: string) => {
 };
 
 import { SkillsUniverse } from '../components/SkillsUniverse';
+import { Magnetic } from '../components/Magnetic';
 
 export const Skills = () => {
   return (
     <div className="relative min-h-screen pt-48 pb-60 overflow-hidden bg-transparent">
-      {/* Background depth */}
+      {/* Background depth & Splash */}
       <div className="absolute inset-0 z-0 pointer-events-none">
-         <div className="absolute top-0 left-0 w-full h-[60vh] bg-[radial-gradient(ellipse_at_center,_#c8e8ff_0%,_transparent_70%)] opacity-30" />
+         <div className="holi-splash w-[900px] h-[900px] bg-[var(--accent-primary)] top-[-10%] left-[-10%] opacity-10" />
+         <div className="holi-splash w-[800px] h-[800px] bg-[var(--accent-secondary)] bottom-[-10%] right-[-10%] opacity-10" />
+         <div className="holi-splash w-[600px] h-[600px] bg-[var(--accent-tertiary)] top-[20%] right-[30%] opacity-05" />
       </div>
 
       <div className="max-w-7xl mx-auto px-6 mb-24 text-center relative z-10">
         <motion.span 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          className="text-sky-700 font-mono text-[11px] font-bold tracking-[0.5em] mb-6 block uppercase opacity-70"
+          className="text-[var(--accent-primary)] font-mono text-[11px] font-bold tracking-[0.5em] mb-6 block uppercase opacity-90"
         >
           // PERFORMANCE ENGINE
         </motion.span>
-        <motion.h2 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-7xl md:text-[8vw] font-display font-extrabold tracking-tighter leading-none text-[#0a0a0a] uppercase"
-        >
-          THE ARSENAL.
-        </motion.h2>
-        <p className="text-[#64748b] text-xl font-sans font-light italic mt-6 max-w-xl mx-auto opacity-80">
+        
+        <Magnetic strength={20}>
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-7xl md:text-[8vw] font-display font-black tracking-tighter leading-none text-[var(--text-primary)] uppercase cursor-default"
+          >
+            THE ARSENAL.
+          </motion.h2>
+        </Magnetic>
+        
+        <p className="text-[var(--text-secondary)] text-xl font-sans font-light italic mt-6 max-w-xl mx-auto">
           A breakdown of the tools and languages that power my hybrid ecosystems.
         </p>
       </div>
@@ -63,27 +70,30 @@ export const Skills = () => {
            initial={{ opacity: 0, scale: 0.95 }}
            whileInView={{ opacity: 1, scale: 1 }}
            transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+           className="watercolor-border p-1 rounded-[40px]"
         >
-          <SkillsUniverse />
+          <div className="bg-[var(--bg-primary)] rounded-[39px] overflow-hidden">
+            <SkillsUniverse />
+          </div>
         </motion.div>
       </div>
 
       <div className="max-w-2xl mx-auto px-6 mt-24 text-center relative z-10">
         <div className="flex flex-wrap justify-center gap-6 mb-16">
            {[
-             { label: 'Core Stack', count: '2', color: 'bg-sky-700' },
-             { label: 'Tools', count: '4', color: 'bg-violet-600' },
+             { label: 'Core Stack', count: '2', color: 'bg-[var(--accent-primary)]' },
+             { label: 'Tools', count: '4', color: 'bg-[var(--accent-secondary)]' },
              { label: 'Languages', count: '6', color: 'bg-emerald-500' }
            ].map(cat => (
-             <span key={cat.label} className="px-6 py-2.5 bg-white border border-black/[0.06] shadow-sm rounded-xl flex items-center gap-4">
-               <span className={`w-2 h-2 rounded-full ${cat.color}`} />
-               <span className="text-[10px] font-mono font-bold tracking-[0.2em] uppercase text-[#475569]">{cat.label}</span>
-               <span className="text-[10px] font-sans font-bold text-[#94a3b8]">· {cat.count}</span>
+             <span key={cat.label} className="px-6 py-2.5 bg-[var(--bg-secondary)] border border-[var(--glass-border)] shadow-sm rounded-xl flex items-center gap-4">
+               <span className={`w-2 h-2 rounded-full ${cat.color} animate-pulse`} />
+               <span className="text-[10px] font-mono font-bold tracking-[0.2em] uppercase text-[var(--text-secondary)]">{cat.label}</span>
+               <span className="text-[10px] font-sans font-bold text-[var(--text-primary)]/40">· {cat.count}</span>
              </span>
            ))}
         </div>
         
-        <p className="text-[#94a3b8] text-[10px] font-mono tracking-[0.3em] leading-relaxed max-w-lg mx-auto font-bold uppercase opacity-60">
+        <p className="text-[var(--text-secondary)] text-[10px] font-mono tracking-[0.3em] leading-relaxed max-w-lg mx-auto font-bold uppercase opacity-40">
           HOVER AND INTERACT WITH THE ORBITAL SYSTEM. EACH NODE REACTS TO YOUR CURSOR AND SHOWS DEEPER PROFICIENCY DATA.
         </p>
       </div>

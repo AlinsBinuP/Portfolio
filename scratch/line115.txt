@@ -1,0 +1,1 @@
+﻿              textShadow: word === 'binu' && isHovered ? '0 0 30px rgba(251,191,36,0.3)' : undefined,

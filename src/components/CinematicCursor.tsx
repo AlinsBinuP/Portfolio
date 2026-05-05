@@ -17,7 +17,7 @@ export const CinematicCursor = () => {
       mouseY.set(e.clientY);
 
       const target = e.target as HTMLElement;
-      setIsHovering(!!target.closest('button, a, .cursor-pointer, .group'));
+      setIsHovering(!!target.closest('button, a, .cursor-pointer, .group, .project-node'));
     };
 
     const handleMouseDown = () => setIsClicked(true);
@@ -37,17 +37,18 @@ export const CinematicCursor = () => {
   return (
     <>
       <motion.div
-        className="fixed top-0 left-0 w-1 h-1 bg-space-black rounded-full z-[11000] pointer-events-none"
+        className="fixed top-0 left-0 w-1 h-1 bg-white rounded-full z-[11000] pointer-events-none"
         style={{ x: mouseX, y: mouseY, translateX: '-50%', translateY: '-50%' }}
       />
       <motion.div
         className="fixed top-0 left-0 z-[10000] pointer-events-none rounded-full flex items-center justify-center overflow-visible"
         style={{ x: ringX, y: ringY, translateX: '-50%', translateY: '-50%' }}
         animate={{
-          width: isClicked ? 20 : (isHovering ? 65 : 38),
-          height: isClicked ? 20 : (isHovering ? 65 : 38),
-          border: isHovering ? '1.5px solid rgba(37, 99, 235, 1)' : '1px solid rgba(15, 23, 42, 0.2)',
-          backgroundColor: isHovering ? 'rgba(37, 99, 235, 0.05)' : 'rgba(37, 99, 235, 0)',
+          width: isClicked ? 24 : (isHovering ? 80 : 40),
+          height: isClicked ? 24 : (isHovering ? 80 : 40),
+          border: isHovering ? '1px solid rgba(168, 85, 247, 0.8)' : '1px solid rgba(255, 255, 255, 0.2)',
+          backgroundColor: isHovering ? 'rgba(168, 85, 247, 0.1)' : 'transparent',
+          boxShadow: isHovering ? '0 0 20px rgba(168, 85, 247, 0.2)' : 'none',
         }}
         transition={{ type: "spring", stiffness: 400, damping: 25 }}
       />

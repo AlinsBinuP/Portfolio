@@ -1,0 +1,1 @@
+﻿              WebkitTextStrokeColor: word === 'binu' && isHovered ? '#0369a1' : undefined,

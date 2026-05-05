@@ -1,0 +1,1 @@
+﻿            className={`inline-block cursor-none px-[0.01em] ${word === 'binu' ? 'text-hollow-heavy' : ''}`}

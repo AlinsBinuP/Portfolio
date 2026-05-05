@@ -3,51 +3,46 @@ import { motion } from 'framer-motion';
 
 export const GlobalMeshBackground = () => {
   return (
-    <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-[#fdfdfd]">
+    <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-[var(--bg-primary)]">
       {/* 
-        This global mesh replicates the soft, diffuse, warm aesthetic glow requested.
-        Yellow/Amber on the left, Warm Ivory/Peach in the center, Sky Blue on the right.
-        It sits behind all transparent sections across the entire site.
+        Theme-Aware Cinematic Mesh.
+        Adapts glows based on .dark class.
       */}
       
-      {/* Soft Amber / Yellow Left Glow */}
+      {/* Dynamic Pulse Top Left */}
       <motion.div 
         animate={{ 
           x: [0, 40, 0],
-          y: [0, -30, 0],
-          scale: [1, 1.05, 1]
+          y: [0, 60, 0],
+          opacity: [0.1, 0.2, 0.1]
         }}
-        transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute -top-[10%] -left-[10%] w-[60vw] h-[80vh] bg-[#fde68a]/30 rounded-full blur-[140px] mix-blend-multiply"
+        transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute -top-[10%] -left-[10%] w-[60vw] h-[60vh] bg-[var(--glow-cyan)] rounded-full blur-[160px]"
       />
 
-      {/* Warm Peach / Ivory Bottom Center Glow */}
+      {/* Dynamic Pulse Center Right */}
       <motion.div 
         animate={{ 
-          x: [0, -20, 0],
-          y: [0, 40, 0],
-          scale: [1, 1.1, 1]
+          x: [0, -60, 0],
+          y: [0, -30, 0],
+          opacity: [0.05, 0.15, 0.05]
         }}
-        transition={{ duration: 22, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-        className="absolute -bottom-[20%] left-[20%] w-[50vw] h-[60vh] bg-[#ffedd5]/40 rounded-full blur-[120px] mix-blend-multiply"
+        transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+        className="absolute top-[30%] -right-[10%] w-[50vw] h-[70vh] bg-[var(--glow-purple)] rounded-full blur-[140px]"
       />
       
-      {/* Soft Sky Blue / Teal Right Glow */}
+      {/* Soft Glow Bottom Center */}
       <motion.div 
         animate={{ 
-          x: [0, -40, 0],
-          y: [0, 30, 0],
-          scale: [1, 1.08, 1]
+          scale: [1, 1.2, 1],
+          opacity: [0.05, 0.1, 0.05]
         }}
-        transition={{ duration: 20, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-        className="absolute top-[15%] -right-[10%] w-[55vw] h-[75vh] bg-[#bae6fd]/30 rounded-full blur-[130px] mix-blend-multiply"
+        transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute -bottom-[20%] left-[10%] w-[80vw] h-[50vh] bg-indigo-500/10 rounded-full blur-[180px]"
       />
 
-      {/* Very Subtle Noise Overlay to blend the gradients seamlessly */}
-      <div 
-        className="absolute inset-0 opacity-[0.02] mix-blend-overlay" 
-        style={{ backgroundImage: 'url("https://grainy-gradients.vercel.app/noise.svg")' }}
-      />
+      {/* Grid Overlay with dynamic tint */}
+      <div className="absolute inset-0 bg-grid-dot opacity-[0.08] dark:opacity-20 dark:invert dark:sepia-[0.2] dark:saturate-[2] dark:hue-rotate-[190deg]" />
     </div>
   );
 };

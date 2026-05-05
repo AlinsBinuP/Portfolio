@@ -1,93 +1,88 @@
-import React, { useEffect, useState } from 'react';
-import { motion, useSpring, useMotionValue, AnimatePresence } from 'framer-motion';
+import React, { useEffect, useState, useRef } from 'react';
+import { motion, useMotionValue, useSpring, AnimatePresence } from 'framer-motion';
 
 export const CustomCursor = () => {
   const [isHovering, setIsHovering] = useState(false);
-  const [isClicking, setIsClicking] = useState(false);
-  const [hoverType, setHoverType] = useState<'default' | 'link' | 'project'>('default');
-
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-
-  const springConfig = { damping: 25, stiffness: 450 };
-  const cursorX = useSpring(mouseX, springConfig);
-  const cursorY = useSpring(mouseY, springConfig);
-
-  const trailX = useSpring(mouseX, { damping: 40, stiffness: 200 });
-  const trailY = useSpring(mouseY, { damping: 40, stiffness: 200 });
+  const [cursorType, setCursorType] = useState<'default' | 'pointer' | 'text'>('default');
+  
+  const cursorX = useMotionValue(-100);
+  const cursorY = useMotionValue(-100);
+  
+  const springConfig = { damping: 25, stiffness: 250 };
+  const cursorXSpring = useSpring(cursorX, springConfig);
+  const cursorYSpring = useSpring(cursorY, springConfig);
 
   useEffect(() => {
-    const moveMouse = (e: MouseEvent) => {
-      mouseX.set(e.clientX);
-      mouseY.set(e.clientY);
+    const moveCursor = (e: MouseEvent) => {
+      cursorX.set(e.clientX);
+      cursorY.set(e.clientY);
     };
 
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      if (target.closest('a') || target.closest('button')) {
+      const style = window.getComputedStyle(target);
+      
+      if (style.cursor === 'pointer' || target.tagName === 'BUTTON' || target.tagName === 'A') {
+        setCursorType('pointer');
         setIsHovering(true);
-        setHoverType('link');
-      } else if (target.closest('.project-node') || target.closest('.group')) {
+      } else if (style.cursor === 'text' || target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') {
+        setCursorType('text');
         setIsHovering(true);
-        setHoverType('project');
       } else {
+        setCursorType('default');
         setIsHovering(false);
-        setHoverType('default');
       }
     };
 
-    const handleMouseDown = () => setIsClicking(true);
-    const handleMouseUp = () => setIsClicking(false);
-
-    window.addEventListener('mousemove', moveMouse);
+    window.addEventListener('mousemove', moveCursor);
     window.addEventListener('mouseover', handleMouseOver);
-    window.addEventListener('mousedown', handleMouseDown);
-    window.addEventListener('mouseup', handleMouseUp);
-
+    
     return () => {
-      window.removeEventListener('mousemove', moveMouse);
+      window.removeEventListener('mousemove', moveCursor);
       window.removeEventListener('mouseover', handleMouseOver);
-      window.removeEventListener('mousedown', handleMouseDown);
-      window.removeEventListener('mouseup', handleMouseUp);
     };
-  }, [mouseX, mouseY]);
+  }, []);
 
   return (
-    <>
-      {/* Outer Glow Trail */}
+    <div className="fixed inset-0 pointer-events-none z-[9999] hidden md:block">
+      {/* Main Ring */}
       <motion.div
-        className="fixed top-0 left-0 w-12 h-12 rounded-full border border-sky-500/20 pointer-events-none z-[9998] mix-blend-screen"
-        style={{ x: trailX, y: trailY, translateX: '-50%', translateY: '-50%' }}
-        animate={{ scale: isHovering ? 1.5 : 1, opacity: isClicking ? 0 : 1 }}
+        style={{
+          translateX: cursorXSpring,
+          translateY: cursorYSpring,
+          left: -15,
+          top: -15,
+        }}
+        className={`absolute w-8 h-8 border rounded-full transition-colors duration-300 ${
+          cursorType === 'pointer' ? 'border-purple-500 scale-150 bg-purple-500/5' : 
+          cursorType === 'text' ? 'border-white/50 w-1 h-8 rounded-none' : 
+          'border-white/20'
+        }`}
       />
       
-      {/* Main Cursor */}
+      {/* Center Dot */}
       <motion.div
-        className="fixed top-0 left-0 w-8 h-8 rounded-full border border-[#0a0a0a] pointer-events-none z-[9999] mix-blend-difference flex items-center justify-center"
         style={{
-          x: cursorX,
-          y: cursorY,
-          translateX: '-50%',
-          translateY: '-50%',
+          translateX: cursorX,
+          translateY: cursorY,
+          left: -2,
+          top: -2,
         }}
-        animate={{
-          scale: isClicking ? 0.8 : isHovering ? 2.5 : 1,
-          backgroundColor: isHovering ? '#ffffff' : 'rgba(255,255,255,0)',
+        className={`absolute w-1 h-1 bg-white rounded-full transition-transform duration-300 ${
+          isHovering ? 'scale-0' : 'scale-100'
+        }`}
+      />
+
+      {/* Trailing Glow */}
+      <motion.div
+        style={{
+          translateX: cursorXSpring,
+          translateY: cursorYSpring,
+          left: -40,
+          top: -40,
         }}
-      >
-        <AnimatePresence>
-          {isHovering && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.5 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.5 }}
-              className="text-[4px] font-black uppercase tracking-[0.2em] text-[#0a0a0a] pointer-events-none text-center leading-none"
-            >
-              {hoverType === 'project' ? 'DISCOVER' : 'ENTER'}
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </motion.div>
-    </>
+        className="absolute w-20 h-20 bg-purple-500/5 blur-2xl rounded-full"
+      />
+    </div>
   );
 };

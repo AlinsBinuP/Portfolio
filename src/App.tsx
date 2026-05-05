@@ -7,7 +7,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion, useScroll } from 'framer-motion';
 import { Navbar } from './components/Navbar';
-import { CinematicCursor } from './components/CinematicCursor';
+import { ContextCursor } from './components/ContextCursor';
 import { StarBackground } from './components/StarBackground';
 import { Preloader } from './components/Preloader';
 import { CinematicOverlay } from './components/CinematicOverlay';
@@ -18,6 +18,10 @@ import { Projects } from './pages/Projects';
 import { Skills } from './pages/Skills';
 import { Education } from './pages/Education';
 import { Contact } from './pages/Contact';
+import { AIChatbot } from './components/AIChatbot';
+import { MusicPlayer } from './components/MusicPlayer';
+import { DevTerminal } from './components/DevTerminal';
+import { Magnetic } from './components/Magnetic';
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -44,8 +48,14 @@ const PageWrapper = ({ children }: { children: React.ReactNode }) => {
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
+  const [theme, setTheme] = useState<'light' | 'dark'>('dark');
+
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', theme === 'dark');
+  }, [theme]);
 
   const onCompleteStable = React.useCallback(() => setIsLoading(false), []);
+  const toggleTheme = () => setTheme(prev => prev === 'dark' ? 'light' : 'dark');
 
   return (
     <Router>
@@ -60,10 +70,10 @@ export default function App() {
         <GlobalMeshBackground />
         <CinematicOverlay />
         <div className="noise-overlay" />
-        <CinematicCursor />
+        <ContextCursor />
         {!isLoading && (
           <>
-            <Navbar />
+            <Navbar theme={theme} toggleTheme={toggleTheme} />
             
             <main className="relative z-10">
               <AnimatePresence mode="wait">
@@ -78,25 +88,41 @@ export default function App() {
               </AnimatePresence>
             </main>
 
-            <footer className="py-20 px-12 text-center border-t border-space-black/5 flex flex-col md:flex-row items-center justify-between text-space-black/30 bg-white/50 backdrop-blur-md relative z-30">
-              <span className="font-mono text-[10px] uppercase tracking-widest font-bold text-sky-700/60">
-                Alins Binu © 2026 — Kerala, India.
-              </span>
+            <footer className="py-20 px-12 text-center border-t border-[var(--glass-border)] flex flex-col md:flex-row items-center justify-between text-[var(--text-secondary)] bg-[var(--bg-primary)]/80 backdrop-blur-3xl relative z-30">
+              <div className="flex flex-col items-center md:items-start gap-2">
+                <span className="font-display font-black text-xl text-[var(--text-primary)] uppercase tracking-tighter">
+                  ALINS BINU
+                </span>
+                <span className="font-mono text-[9px] uppercase tracking-[0.4em] font-bold opacity-40">
+                  © 2026 — Kerala, India.
+                </span>
+              </div>
               
-              <div className="hidden lg:flex items-center gap-12 text-[9px] font-mono font-bold tracking-widest opacity-30">
-                 <div className="flex items-center gap-2">
-                    <motion.div animate={{ scale: [1, 1.5, 1] }} transition={{ repeat: Infinity, duration: 4 }} className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+              <div className="hidden lg:flex items-center gap-12 text-[9px] font-mono font-bold tracking-[0.4em] opacity-40">
+                 <div className="flex items-center gap-3">
+                    <motion.div 
+                      animate={{ scale: [1, 1.4, 1], opacity: [0.5, 1, 0.5] }} 
+                      transition={{ repeat: Infinity, duration: 2 }} 
+                      className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.8)]" 
+                    />
                     <span>SYSTEM ONLINE</span>
                  </div>
-                 <span>64 BIT ARCHITECTURE</span>
-                 <span>LATENCY: 12MS</span>
+                 <span className="border border-[var(--glass-border)] px-4 py-1 rounded-full opacity-40">64 BIT ENGINE</span>
+                 <span>LATENCY: 8MS</span>
               </div>
 
-              <div className="flex gap-12 font-bold text-space-black/40 text-[10px] tracking-widest uppercase">
-                <a href="https://github.com/AlinsBinuP" className="hover:text-sky-blue-vibrant transition-colors">GitHub</a>
-                <a href="https://www.linkedin.com/in/alinsbinu/" className="hover:text-sky-blue-vibrant transition-colors text-sky-700">LinkedIn</a>
+              <div className="flex gap-10 font-black text-[var(--text-secondary)] text-[10px] tracking-[0.3em] uppercase mt-8 md:mt-0">
+                <Magnetic strength={20}>
+                  <a href="https://github.com/AlinsBinuP" className="hover:text-[var(--accent-primary)] transition-all">GitHub</a>
+                </Magnetic>
+                <Magnetic strength={20}>
+                  <a href="https://www.linkedin.com/in/alinsbinu/" className="hover:text-[var(--accent-secondary)] transition-all">LinkedIn</a>
+                </Magnetic>
               </div>
             </footer>
+            <AIChatbot />
+            <MusicPlayer />
+            <DevTerminal />
           </>
         )}
       </div>

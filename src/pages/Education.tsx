@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { GraduationCap, School, University } from 'lucide-react';
+import { Magnetic } from '../components/Magnetic';
 
 const EDUCATION = [
   {
@@ -43,20 +44,23 @@ export const Education = () => {
   const x = useTransform(scrollYProgress, [0, 1], ["0%", "-66.6%"]);
 
   return (
-    <div ref={containerRef} className="relative h-[300vh] bg-transparent overflow-visible">
+    <div ref={containerRef} className="relative h-[300vh] bg-transparent overflow-visible text-[var(--text-primary)]">
       <div className="sticky top-0 h-screen w-full flex items-center overflow-hidden">
-        {/* Background Depth */}
+        {/* Background Depth & Splashes */}
         <div className="absolute inset-0 z-0 pointer-events-none">
-           <div className="absolute top-0 left-0 w-full h-[60vh] bg-[radial-gradient(ellipse_at_center,_#c8e8ff_0%,_transparent_70%)] opacity-30" />
+          {/* Holi Splash Backgrounds */}
+        <div className="holi-splash w-[800px] h-[800px] bg-[var(--accent-primary)] top-[-10%] right-[-10%] opacity-10" />
+        <div className="holi-splash w-[1000px] h-[1000px] bg-[var(--accent-secondary)] bottom-[-20%] left-[-10%] opacity-10" />
+        <div className="holi-splash w-[600px] h-[600px] bg-[var(--accent-tertiary)] top-[40%] right-[10%] opacity-05" />
         </div>
 
         {/* Progress Line Background */}
-        <div className="absolute top-1/2 left-0 w-full h-[2px] bg-black/[0.04] -z-10" />
+        <div className="absolute top-1/2 left-0 w-full h-[2px] bg-[var(--glass-border)] -z-10" />
         
         {/* Animated Progress Line */}
         <motion.div 
           style={{ scaleX: scrollYProgress, transformOrigin: "left" }}
-          className="absolute top-1/2 left-0 w-full h-[2px] bg-[#0369a1] z-0"
+          className="absolute top-1/2 left-0 w-full h-[2px] bg-[var(--accent-primary)] z-0 shadow-[0_0_20px_var(--accent-primary)]"
         />
 
         <motion.div style={{ x }} className="flex h-full items-center">
@@ -67,13 +71,13 @@ export const Education = () => {
             >
               {/* Massive Decorative Number */}
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
-                 <motion.span 
-                   initial={{ opacity: 0 }}
-                   whileInView={{ opacity: 0.05 }}
-                   className="text-[30vw] font-heavy text-[#0a0a0a]"
-                 >
-                   {edu.id}
-                 </motion.span>
+                  <motion.span 
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 0.05 }}
+                    className="text-[30vw] font-heavy text-[var(--text-primary)]"
+                  >
+                    {edu.id}
+                  </motion.span>
               </div>
 
               <motion.div 
@@ -92,38 +96,42 @@ export const Education = () => {
                      whileInView={{ opacity: 1, x: 0 }}
                      transition={{ duration: 0.8 }}
                    >
-                      <div className="mb-6 flex items-center gap-4">
-                         <span className="px-5 py-1.5 bg-[#f1f5f9] border border-black/[0.03] text-[10px] font-black tracking-widest text-[#0369a1]">{edu.year}</span>
+                       <div className="mb-6 flex items-center gap-4">
+                         <span className="px-5 py-1.5 bg-[var(--bg-secondary)] border border-[var(--glass-border)] text-[10px] font-black tracking-widest text-[var(--accent-primary)] rounded-full">{edu.year}</span>
                          {edu.current && (
-                           <span className="flex items-center gap-2 px-5 py-1.5 bg-sky-50 text-[#0369a1] text-[10px] font-black tracking-widest rounded-full border border-[#0369a1]/10">
-                             <span className="w-1.5 h-1.5 bg-[#10b981] rounded-full animate-pulse" />
+                           <span className="flex items-center gap-2 px-5 py-1.5 bg-[var(--bg-secondary)] text-[var(--accent-primary)] text-[10px] font-black tracking-widest rounded-full border border-[var(--accent-primary)]/20">
+                             <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
                              CURRENT
                            </span>
                          )}
                       </div>
-                      <h3 className="text-5xl md:text-7xl font-heavy mb-8 leading-tight tracking-tighter text-[#0a0a0a] uppercase">
-                         {edu.title}
-                      </h3>
-                      <p className="text-xl text-[#64748b] font-light leading-relaxed italic border-l-2 border-[#0369a1]/20 pl-6">
+                      
+                      <Magnetic strength={20}>
+                        <h3 className="text-5xl md:text-7xl font-display font-black mb-8 leading-tight tracking-tighter text-[var(--text-primary)] uppercase cursor-default">
+                          {edu.title}
+                        </h3>
+                      </Magnetic>
+                      
+                       <p className="text-xl text-[var(--text-secondary)] font-light leading-relaxed italic border-l-2 border-[var(--accent-primary)]/30 pl-6">
                          {edu.school}
-                      </p>
+                       </p>
                    </motion.div>
 
-                   <motion.div
+                    <motion.div
                      initial={{ opacity: 0, scale: 0.8 }}
                      whileInView={{ opacity: 1, scale: 1 }}
                      transition={{ duration: 0.8, delay: 0.2 }}
-                     className="bg-white p-10 md:p-14 border border-black/[0.06] rounded-[40px] shadow-2xl relative group"
+                      className="bg-[var(--card-bg)] border border-[var(--glass-border)] p-10 md:p-14 rounded-[40px] shadow-2xl relative group watercolor-border"
                    >
-                      <div className="absolute top-6 right-6 p-8 text-[#0369a1]/[0.05] group-hover:text-[#0369a1]/10 transition-colors">
+                      <div className="absolute top-6 right-6 p-8 text-[var(--accent-primary)]/10 group-hover:text-[var(--accent-primary)]/20 transition-colors">
                          <edu.icon size={100} />
                       </div>
-                      <p className="text-xl md:text-2xl text-[#4a5568] mb-12 font-light leading-relaxed">
+                      <p className="text-xl md:text-2xl text-[var(--text-primary)] mb-12 font-light leading-relaxed relative z-10">
                          "{edu.desc}"
                       </p>
-                      <div className="flex flex-wrap gap-4">
+                       <div className="flex flex-wrap gap-4 relative z-10">
                          {["Computer Science", "Engineering", "Flutter"].map(tag => (
-                           <span key={tag} className="text-[9px] font-black tracking-widest uppercase text-[#94a3b8]">{tag}</span>
+                           <span key={tag} className="text-[9px] font-black tracking-widest uppercase text-[var(--text-secondary)] opacity-60">{tag}</span>
                          ))}
                       </div>
                    </motion.div>
@@ -131,10 +139,10 @@ export const Education = () => {
               </motion.div>
 
               {/* Floating year above station */}
-              <motion.div 
+               <motion.div 
                 initial={{ opacity: 0, y: -40 }}
                 whileInView={{ opacity: 0.05, y: -200 }}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 text-8xl font-heavy text-[#0a0a0a] pointer-events-none uppercase"
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 text-8xl font-heavy text-[var(--text-primary)] pointer-events-none uppercase"
               >
                 {edu.year.split(" ")[0]}
               </motion.div>
@@ -144,9 +152,9 @@ export const Education = () => {
       </div>
 
       {/* Intro label */}
-      <div className="absolute top-48 left-12 z-20">
-         <span className="text-[#0369a1] font-mono text-[11px] font-black tracking-[0.4em] block opacity-70 uppercase">// ACADEMIC ODYSSEY</span>
-      </div>
+       <div className="absolute top-48 left-12 z-20">
+          <span className="text-[var(--accent-primary)] font-mono text-[11px] font-black tracking-[0.4em] block opacity-90 uppercase">// ACADEMIC ODYSSEY</span>
+       </div>
     </div>
   );
 };

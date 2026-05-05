@@ -27,28 +27,17 @@ export const Contact = () => {
       })
       .finally(() => {
         setIsSubmitting(false);
-        // Clear status after 5 seconds
         setTimeout(() => setStatus('idle'), 5000);
       });
   };
 
   return (
-    <div className="min-h-screen pt-48 pb-40 px-8 md:px-20 bg-transparent relative overflow-hidden">
-      {/* Background Depth */}
+    <div className="min-h-screen pt-48 pb-40 px-8 md:px-20 bg-transparent text-[var(--text-primary)] relative overflow-hidden">
+      {/* Background Depth & Splashes */}
       <div className="absolute inset-0 z-0 pointer-events-none">
-         <div className="absolute top-0 right-0 w-full h-[60vh] bg-[radial-gradient(ellipse_at_top_right,_#c8e8ff_0%,_transparent_70%)] opacity-30" />
-         <div className="absolute bottom-0 left-0 w-full h-[60vh] bg-[radial-gradient(ellipse_at_bottom_left,_#eef8ff_0%,_transparent_70%)] opacity-30" />
-         
-         <motion.div animate={{ scale:[1,1.3,1], opacity:[0.3,0.5,0.3] }}
-           transition={{ duration:8, repeat:Infinity }}
-           className="absolute top-1/3 left-1/3 w-96 h-96 rounded-full pointer-events-none"
-           style={{ background: 'radial-gradient(circle, rgba(56,189,248,0.2), transparent 70%)', filter: 'blur(60px)' }}
-         />
-         <motion.div animate={{ scale:[1,1.2,1], opacity:[0.2,0.4,0.2] }}
-           transition={{ duration:12, repeat:Infinity, delay:2 }}
-           className="absolute bottom-1/4 right-1/4 w-64 h-64 rounded-full pointer-events-none"
-           style={{ background: 'radial-gradient(circle, rgba(251,191,36,0.15), transparent 70%)', filter: 'blur(50px)' }}
-         />
+         <div className="holi-splash w-[900px] h-[900px] bg-[var(--accent-primary)] top-[-10%] right-[-10%] opacity-10" />
+         <div className="holi-splash w-[800px] h-[800px] bg-[var(--accent-secondary)] bottom-[-20%] left-[-10%] opacity-10" />
+         <div className="holi-splash w-[600px] h-[600px] bg-[var(--accent-tertiary)] top-[40%] left-[30%] opacity-08" />
       </div>
 
       <div className="max-w-7xl mx-auto relative z-10">
@@ -58,28 +47,30 @@ export const Contact = () => {
             <motion.span 
               initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: 1, x: 0 }}
-              className="text-[#0369a1] font-mono text-[11px] font-black tracking-[0.4em] mb-6 block opacity-70 uppercase"
+              className="text-[var(--accent-secondary)] font-mono text-[11px] font-black tracking-[0.4em] mb-6 block uppercase opacity-90"
             >
               // INITIATE CONTACT
             </motion.span>
             
-            <motion.h2 
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              className="text-7xl md:text-9xl font-heavy tracking-tighter leading-[0.85] mb-12 text-[#0a0a0a] uppercase"
-            >
-              Let's <br/><span className="opacity-30 italic font-serif">talk.</span>
-            </motion.h2>
+            <Magnetic strength={20}>
+              <motion.h2 
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+                className="text-7xl md:text-9xl font-display font-black tracking-tighter leading-[0.85] mb-12 text-[var(--text-primary)] uppercase cursor-default"
+              >
+                Let's <br/><span className="text-[var(--accent-primary)] italic font-serif">talk.</span>
+              </motion.h2>
+            </Magnetic>
 
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }} className="space-y-12 mb-16">
               <div className="group cursor-pointer">
-                <span className="text-[10px] font-black tracking-[0.4em] text-[#94a3b8] uppercase block mb-3 opacity-60">Email Me</span>
-                <span className="text-3xl font-heavy group-hover:text-[#0369a1] transition-all text-[#0a0a0a] tracking-tighter">alinsbinukochuthovala<br/>@gmail.com</span>
+                <span className="text-[10px] font-black tracking-[0.4em] text-[var(--text-secondary)] uppercase block mb-3 opacity-40">Email Me</span>
+                <span className="text-3xl font-display font-bold group-hover:text-[var(--accent-secondary)] transition-all text-[var(--text-primary)] tracking-tighter">alinsbinukochuthovala<br/>@gmail.com</span>
               </div>
               <div className="group cursor-pointer">
-                <span className="text-[10px] font-black tracking-[0.4em] text-[#94a3b8] uppercase block mb-3 opacity-60">Location</span>
-                <span className="text-3xl font-heavy text-[#0a0a0a] tracking-tighter">Kattappana, Kerala</span>
+                <span className="text-[10px] font-black tracking-[0.4em] text-[var(--text-secondary)] uppercase block mb-3 opacity-40">Location</span>
+                <span className="text-3xl font-display font-bold text-[var(--text-primary)] tracking-tighter">Kattappana, Kerala</span>
               </div>
               <div className="flex gap-8">
                 {[
@@ -93,7 +84,7 @@ export const Contact = () => {
                     transition={{ delay: 0.5 + i * 0.1 }}
                     href={social.url}
                     target="_blank"
-                    className="text-[11px] font-black tracking-[0.2em] uppercase text-[#64748b] hover:text-[#0a0a0a] transition-all border-b border-black/10 pb-1"
+                    className="text-[11px] font-black tracking-[0.2em] uppercase text-[var(--text-secondary)] hover:text-[var(--accent-primary)] transition-all border-b border-[var(--glass-border)] pb-1"
                   >
                     {social.name}
                   </motion.a>
@@ -107,48 +98,48 @@ export const Contact = () => {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="bg-white p-8 md:p-16 border border-black/[0.06] rounded-[48px] shadow-2xl relative group overflow-hidden"
+            className="p-8 md:p-16 rounded-[48px] shadow-2xl relative group overflow-hidden bg-[var(--card-bg)] backdrop-blur-xl border border-[var(--glass-border)] watercolor-border"
           >
-             <div className="absolute top-0 left-0 w-1 h-full bg-[#0369a1]/10 group-hover:bg-[#0369a1] transition-all duration-700" />
-             
-             <form ref={formRef} className="space-y-12" onSubmit={sendEmail}>
-                <div className="space-y-1 group">
-                   <label className="text-[10px] font-black tracking-[0.3em] text-[#94a3b8] uppercase group-focus-within:text-[#0369a1] transition-colors opacity-60">Your Name</label>
-                   <input required name="name" type="text" className="w-full bg-transparent border-b border-black/[0.08] py-4 text-xl outline-none focus:border-[#0369a1] transition-all font-light text-[#0a0a0a]" placeholder="Alins Binu" />
-                </div>
-                <div className="space-y-1 group">
-                   <label className="text-[10px] font-black tracking-[0.3em] text-[#94a3b8] uppercase group-focus-within:text-[#0369a1] transition-colors opacity-60">Email Address</label>
-                   <input required name="email" type="email" className="w-full bg-transparent border-b border-black/[0.08] py-4 text-xl outline-none focus:border-[#0369a1] transition-all font-light text-[#0a0a0a]" placeholder="alins@example.com" />
-                </div>
-                <div className="space-y-1 group">
-                   <label className="text-[10px] font-black tracking-[0.3em] text-[#94a3b8] uppercase group-focus-within:text-[#0369a1] transition-colors opacity-60">The Brief</label>
-                   <textarea required name="message" rows={4} className="w-full bg-transparent border-b border-black/[0.08] py-4 text-xl outline-none focus:border-[#0369a1] transition-all font-light resize-none text-[#0a0a0a]" placeholder="How can I help you?"></textarea>
-                </div>
+             <div className="relative z-10">
+               <form ref={formRef} className="space-y-12" onSubmit={sendEmail}>
+                  <div className="space-y-1 group">
+                     <label className="text-[10px] font-black tracking-[0.3em] text-[var(--text-secondary)] uppercase group-focus-within:text-[var(--accent-primary)] transition-colors opacity-40">Your Name</label>
+                     <input required name="name" type="text" className="w-full bg-transparent border-b border-[var(--glass-border)] py-4 text-xl outline-none focus:border-[var(--accent-primary)] transition-all font-light text-[var(--text-primary)]" placeholder="Alins Binu" />
+                  </div>
+                  <div className="space-y-1 group">
+                     <label className="text-[10px] font-black tracking-[0.3em] text-[var(--text-secondary)] uppercase group-focus-within:text-[var(--accent-primary)] transition-colors opacity-40">Email Address</label>
+                     <input required name="email" type="email" className="w-full bg-transparent border-b border-[var(--glass-border)] py-4 text-xl outline-none focus:border-[var(--accent-primary)] transition-all font-light text-[var(--text-primary)]" placeholder="alins@example.com" />
+                  </div>
+                  <div className="space-y-1 group">
+                     <label className="text-[10px] font-black tracking-[0.3em] text-[var(--text-secondary)] uppercase group-focus-within:text-[var(--accent-primary)] transition-colors opacity-40">The Brief</label>
+                     <textarea required name="message" rows={4} className="w-full bg-transparent border-b border-[var(--glass-border)] py-4 text-xl outline-none focus:border-[var(--accent-primary)] transition-all font-light resize-none text-[var(--text-primary)]" placeholder="How can I help you?"></textarea>
+                  </div>
 
-                <div className="flex flex-col gap-4">
-                  <Magnetic strength={20}>
-                    <button 
-                      type="submit" 
-                      disabled={isSubmitting}
-                      className="group w-full bg-[#0a0a0a] text-white py-6 rounded-full font-black text-[10px] tracking-[0.3em] uppercase hover:bg-[#0369a1] transition-all shadow-xl flex items-center justify-center gap-4 disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                      {isSubmitting ? 'Sending Signal...' : 'Send Signal'} 
-                      {!isSubmitting && <Send className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />}
-                    </button>
-                  </Magnetic>
-                  
-                  {status === 'success' && (
-                    <motion.p initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="text-emerald-500 text-sm font-medium text-center">
-                      Signal received. I will get back to you shortly.
-                    </motion.p>
-                  )}
-                  {status === 'error' && (
-                    <motion.p initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="text-red-500 text-sm font-medium text-center">
-                      Failed to send signal. Please try again later.
-                    </motion.p>
-                  )}
-                </div>
-             </form>
+                  <div className="flex flex-col gap-4 pt-6">
+                    <Magnetic strength={20}>
+                      <button 
+                        type="submit" 
+                        disabled={isSubmitting}
+                        className="group w-full bg-[var(--text-primary)] text-[var(--bg-primary)] py-6 rounded-full font-black text-[10px] tracking-[0.3em] uppercase hover:bg-[var(--accent-primary)] hover:text-white transition-all shadow-xl flex items-center justify-center gap-4 disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        {isSubmitting ? 'Sending Signal...' : 'Send Signal'} 
+                        {!isSubmitting && <Send className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />}
+                      </button>
+                    </Magnetic>
+                    
+                    {status === 'success' && (
+                      <motion.p initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="text-emerald-500 text-sm font-medium text-center">
+                        Signal received. I will get back to you shortly.
+                      </motion.p>
+                    )}
+                    {status === 'error' && (
+                      <motion.p initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="text-red-500 text-sm font-medium text-center">
+                        Failed to send signal. Please try again later.
+                      </motion.p>
+                    )}
+                  </div>
+               </form>
+             </div>
           </motion.div>
         </div>
       </div>

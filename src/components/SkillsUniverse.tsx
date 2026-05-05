@@ -198,9 +198,9 @@ export const SkillsUniverse = () => {
         
         ctx.beginPath();
         ctx.arc(bubble.x, bubble.y, bubble.size / 2, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(255, 255, 255, 1)';
+        ctx.fillStyle = 'rgba(5, 5, 5, 0.9)';
         ctx.fill();
-        ctx.strokeStyle = 'rgba(0, 0, 0, 0.05)';
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
         ctx.stroke();
 
         // Draw image
@@ -234,8 +234,8 @@ export const SkillsUniverse = () => {
       }
 
       // Draw Sun Label (Simplified)
-      ctx.fillStyle = '#0369a1';
-      ctx.font = 'black 11px Inter, sans-serif';
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+      ctx.font = 'bold 11px Inter, sans-serif';
       ctx.textAlign = 'center';
       ctx.fillText('CORE / FLUTTER', centerX, centerY + 4);
 
@@ -258,7 +258,7 @@ export const SkillsUniverse = () => {
   };
 
   return (
-    <div className="relative w-full h-[700px] bg-[#f8fafc] rounded-[40px] overflow-hidden border border-black/[0.05]">
+    <div className="relative w-full h-[700px] bg-black/40 backdrop-blur-3xl rounded-[40px] overflow-hidden border border-white/10 shadow-[0_0_80px_rgba(0,0,0,0.5)]">
       <canvas 
         ref={canvasRef}
         onMouseMove={handleMouseMove}
@@ -278,28 +278,28 @@ export const SkillsUniverse = () => {
             }}
             className="absolute z-50 pointer-events-none"
           >
-            <div className="bg-white px-6 py-4 border border-black/[0.06] shadow-xl rounded-2xl min-w-[200px]">
+            <div className="bg-[#0a0a0a]/90 backdrop-blur-xl px-6 py-4 border border-white/10 shadow-2xl rounded-2xl min-w-[200px]">
                <div className="flex justify-between items-center mb-3">
-                  <span className="text-[10px] font-black tracking-widest text-[#0369a1] uppercase">{hoveredSkill.name}</span>
-                  <span className="text-[10px] font-bold text-[#64748b]">{hoveredSkill.level}%</span>
+                  <span className="text-[10px] font-black tracking-widest text-purple-400 uppercase">{hoveredSkill.name}</span>
+                  <span className="text-[10px] font-bold text-white/60">{hoveredSkill.level}%</span>
                </div>
-               <div className="w-full h-1 bg-black/[0.03] rounded-full overflow-hidden mb-3">
+               <div className="w-full h-1 bg-white/5 rounded-full overflow-hidden mb-3">
                   <motion.div 
                     initial={{ width: 0 }}
                     animate={{ width: `${hoveredSkill.level}%` }}
-                    className="h-full bg-[#0369a1]" 
+                    className="h-full bg-purple-500" 
                   />
                </div>
-               <p className="text-[9px] text-[#94a3b8] italic font-medium uppercase tracking-tighter">{hoveredSkill.desc}</p>
+               <p className="text-[9px] text-white/40 italic font-medium uppercase tracking-tighter">{hoveredSkill.desc}</p>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
       <div className="absolute top-10 left-10 space-y-2">
-         <div className="flex items-center gap-3">
-            <span className="w-2 h-2 bg-[#0369a1] rounded-full animate-pulse" />
-            <span className="text-[10px] font-black tracking-widest text-[#64748b] uppercase opacity-40">Solar Systems Interactive</span>
+          <div className="flex items-center gap-3">
+            <span className="w-2 h-2 bg-purple-500 rounded-full animate-pulse" />
+            <span className="text-[10px] font-black tracking-widest text-white/30 uppercase">Solar Systems Interactive</span>
          </div>
       </div>
     </div>

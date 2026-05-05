@@ -1,0 +1,9 @@
+﻿            className={`inline-block cursor-none px-[0.01em] ${word === 'binu' ? 'text-hollow-heavy' : ''}`}
+            style={{ 
+              WebkitTextStrokeColor: word === 'binu' && isHovered ? '#0369a1' : undefined,
+              textShadow: word === 'binu' && isHovered ? '0 0 30px rgba(251,191,36,0.3)' : undefined,
+              transition: 'color 0.2s, -webkit-text-stroke-color 0.2s, text-shadow 0.2s' 
+            }}
+          >
+            {char}
+          </motion.span>
