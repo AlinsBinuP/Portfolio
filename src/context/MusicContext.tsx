@@ -6,7 +6,7 @@ export const TRACKS = [
     artist: 'The Weeknd ft. Daft Punk', 
     url: '/The Weeknd - Starboy (Lyrics) ft. Daft Punk.mp3', 
     color: '#6366f1',
-    cover: 'https://i.scdn.co/image/ab67616d0000b273471d6977ae067f18c57f2333'
+    cover: '/starboy.jpeg'
   },
   { 
     title: 'Where We Started', 
