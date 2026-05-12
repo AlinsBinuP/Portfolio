@@ -223,7 +223,7 @@ export const Hero = () => {
                       <span className="text-[11px] md:text-[13px] font-bold text-gray-400 uppercase tracking-[0.05em] md:tracking-[0.1em]">Lead Architect</span>
                    </div>
                    <div className="ml-auto w-8 md:w-10 h-8 md:h-10 rounded-full bg-gray-50 flex items-center justify-center border border-gray-100 shadow-sm">
-                      <ArrowRight size={14} md:size={16} className="text-gray-300" />
+                      <ArrowRight size={16} className="text-gray-300" />
                    </div>
                 </motion.div>
              </motion.div>
