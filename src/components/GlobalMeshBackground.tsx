@@ -8,10 +8,10 @@ export const GlobalMeshBackground = () => {
         Theme-Aware Cinematic Mesh.
         Adapts glows based on .dark class.
       */}
-      
+
       {/* Dynamic Pulse Top Left */}
-      <motion.div 
-        animate={{ 
+      <motion.div
+        animate={{
           x: [0, 40, 0],
           y: [0, 60, 0],
           opacity: [0.1, 0.2, 0.1]
@@ -21,8 +21,8 @@ export const GlobalMeshBackground = () => {
       />
 
       {/* Dynamic Pulse Center Right */}
-      <motion.div 
-        animate={{ 
+      <motion.div
+        animate={{
           x: [0, -60, 0],
           y: [0, -30, 0],
           opacity: [0.05, 0.15, 0.05]
@@ -30,10 +30,10 @@ export const GlobalMeshBackground = () => {
         transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 2 }}
         className="absolute top-[30%] -right-[10%] w-[50vw] h-[70vh] bg-[var(--glow-purple)] rounded-full blur-[140px]"
       />
-      
+
       {/* Soft Glow Bottom Center */}
-      <motion.div 
-        animate={{ 
+      <motion.div
+        animate={{
           scale: [1, 1.2, 1],
           opacity: [0.05, 0.1, 0.05]
         }}

@@ -3,25 +3,28 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import { AnimatePresence, motion, useScroll } from 'framer-motion';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation, NavLink } from 'react-router-dom';
+import { AnimatePresence, motion } from 'framer-motion';
+import { Github, Linkedin, Mail, Sparkles } from 'lucide-react';
 import { Navbar } from './components/Navbar';
 import { ContextCursor } from './components/ContextCursor';
-import { StarBackground } from './components/StarBackground';
 import { Preloader } from './components/Preloader';
 import { CinematicOverlay } from './components/CinematicOverlay';
 import { GlobalMeshBackground } from './components/GlobalMeshBackground';
-import { Home } from './pages/Home';
-import { About } from './pages/About';
-import { Projects } from './pages/Projects';
-import { Skills } from './pages/Skills';
-import { Education } from './pages/Education';
-import { Contact } from './pages/Contact';
 import { AIChatbot } from './components/AIChatbot';
 import { MusicPlayer } from './components/MusicPlayer';
 import { DevTerminal } from './components/DevTerminal';
-import { Magnetic } from './components/Magnetic';
+import { ABLogo } from './components/ABLogo';
+import { MusicProvider } from './context/MusicContext';
+
+// Lazy load pages for performance
+const Home = lazy(() => import('./pages/Home').then(m => ({ default: m.Home })));
+const About = lazy(() => import('./pages/About').then(m => ({ default: m.About })));
+const Projects = lazy(() => import('./pages/Projects').then(m => ({ default: m.Projects })));
+const Skills = lazy(() => import('./pages/Skills').then(m => ({ default: m.Skills })));
+const Education = lazy(() => import('./pages/Education').then(m => ({ default: m.Education })));
+const Contact = lazy(() => import('./pages/Contact').then(m => ({ default: m.Contact })));
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -31,6 +34,16 @@ const ScrollToTop = () => {
   return null;
 };
 
+// Premium Loading State for Page Transitions
+const PageLoader = () => (
+  <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white/20 backdrop-blur-3xl">
+    <div className="flex items-center gap-4 animate-pulse">
+      <ABLogo size={32} />
+      <span className="text-[10px] font-black text-indigo-600 uppercase tracking-[0.4em]">Initializing Module...</span>
+    </div>
+  </div>
+);
+
 const PageWrapper = ({ children }: { children: React.ReactNode }) => {
   const location = useLocation();
   return (
@@ -39,16 +52,19 @@ const PageWrapper = ({ children }: { children: React.ReactNode }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.3, ease: "easeOut" }} // Faster, lighter transition
     >
-      {children}
+
+      <Suspense fallback={<PageLoader />}>
+        {children}
+      </Suspense>
     </motion.div>
   );
 };
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
-  const [theme, setTheme] = useState<'light' | 'dark'>('dark');
+  const [theme, setTheme] = useState<'light' | 'dark'>('light');
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', theme === 'dark');
@@ -58,76 +74,142 @@ export default function App() {
   const toggleTheme = () => setTheme(prev => prev === 'dark' ? 'light' : 'dark');
 
   return (
-    <Router>
-      <ScrollToTop />
-      <AnimatePresence>
-        {isLoading && (
-          <Preloader onComplete={onCompleteStable} />
-        )}
-      </AnimatePresence>
+    <MusicProvider>
+      <Router>
+        <ScrollToTop />
+        <AnimatePresence>
+          {isLoading && (
+            <Preloader onComplete={onCompleteStable} />
+          )}
+        </AnimatePresence>
 
-      <div className="relative min-h-screen">
-        <GlobalMeshBackground />
-        <CinematicOverlay />
-        <div className="noise-overlay" />
-        <ContextCursor />
-        {!isLoading && (
-          <>
-            <Navbar theme={theme} toggleTheme={toggleTheme} />
-            
-            <main className="relative z-10">
-              <AnimatePresence mode="wait">
-                <Routes>
-                  <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
-                  <Route path="/about" element={<PageWrapper><About /></PageWrapper>} />
-                  <Route path="/projects" element={<PageWrapper><Projects /></PageWrapper>} />
-                  <Route path="/skills" element={<PageWrapper><Skills /></PageWrapper>} />
-                  <Route path="/education" element={<PageWrapper><Education /></PageWrapper>} />
-                  <Route path="/contact" element={<PageWrapper><Contact /></PageWrapper>} />
-                </Routes>
-              </AnimatePresence>
-            </main>
+        <div className="relative min-h-screen">
+          <GlobalMeshBackground />
+          <CinematicOverlay />
+          <div className="noise-overlay" />
+          <ContextCursor />
+          {!isLoading && (
+            <>
+              <Navbar theme={theme} toggleTheme={toggleTheme} />
 
-            <footer className="py-20 px-12 text-center border-t border-[var(--glass-border)] flex flex-col md:flex-row items-center justify-between text-[var(--text-secondary)] bg-[var(--bg-primary)]/80 backdrop-blur-3xl relative z-30">
-              <div className="flex flex-col items-center md:items-start gap-2">
-                <span className="font-display font-black text-xl text-[var(--text-primary)] uppercase tracking-tighter">
-                  ALINS BINU
-                </span>
-                <span className="font-mono text-[9px] uppercase tracking-[0.4em] font-bold opacity-40">
-                  © 2026 — Kerala, India.
-                </span>
-              </div>
-              
-              <div className="hidden lg:flex items-center gap-12 text-[9px] font-mono font-bold tracking-[0.4em] opacity-40">
-                 <div className="flex items-center gap-3">
-                    <motion.div 
-                      animate={{ scale: [1, 1.4, 1], opacity: [0.5, 1, 0.5] }} 
-                      transition={{ repeat: Infinity, duration: 2 }} 
-                      className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.8)]" 
-                    />
-                    <span>SYSTEM ONLINE</span>
-                 </div>
-                 <span className="border border-[var(--glass-border)] px-4 py-1 rounded-full opacity-40">64 BIT ENGINE</span>
-                 <span>LATENCY: 8MS</span>
-              </div>
+              <main className="relative z-10">
+                <AnimatePresence mode="wait">
+                  <Routes>
+                    <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
+                    <Route path="/about" element={<PageWrapper><About /></PageWrapper>} />
+                    <Route path="/projects" element={<PageWrapper><Projects /></PageWrapper>} />
+                    <Route path="/skills" element={<PageWrapper><Skills /></PageWrapper>} />
+                    <Route path="/arsenal" element={<PageWrapper><Skills /></PageWrapper>} />
+                    <Route path="/education" element={<PageWrapper><Education /></PageWrapper>} />
+                    <Route path="/contact" element={<PageWrapper><Contact /></PageWrapper>} />
+                  </Routes>
+                </AnimatePresence>
+              </main>
 
-              <div className="flex gap-10 font-black text-[var(--text-secondary)] text-[10px] tracking-[0.3em] uppercase mt-8 md:mt-0">
-                <Magnetic strength={20}>
-                  <a href="https://github.com/AlinsBinuP" className="hover:text-[var(--accent-primary)] transition-all">GitHub</a>
-                </Magnetic>
-                <Magnetic strength={20}>
-                  <a href="https://www.linkedin.com/in/alinsbinu/" className="hover:text-[var(--accent-secondary)] transition-all">LinkedIn</a>
-                </Magnetic>
-              </div>
-            </footer>
-            <AIChatbot />
-            <MusicPlayer />
-            <DevTerminal />
-          </>
-        )}
-      </div>
-    </Router>
+              {/* High-End Light Footer */}
+              <footer className="py-24 px-8 lg:px-24 bg-white border-t border-gray-50 select-none relative z-30">
+                <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-16 justify-between">
+
+                  {/* Brand & Info */}
+                  <div className="flex flex-col gap-8 max-w-sm">
+                    <div className="flex items-center gap-4">
+                      <ABLogo size={48} />
+                      <div className="flex flex-col leading-none">
+                        <span className="font-display font-black text-[24px] tracking-tighter text-[#0c0a28]">ALINS</span>
+                        <span className="font-display font-black text-[24px] tracking-tighter text-[#0c0a28] opacity-20">BINU</span>
+                      </div>
+                    </div>
+                    <div className="flex flex-col gap-4">
+                      <p className="text-sm font-black text-[#0c0a28]/80 uppercase tracking-tight">Flutter Architect & Full Stack Developer</p>
+                      <p className="text-[11px] text-gray-400 font-medium leading-relaxed">
+                        Crafting experiences that live on the edge of design and technology.
+                      </p>
+                    </div>
+                    <span className="text-[10px] text-gray-300 font-bold uppercase tracking-widest mt-4">© 2025 ALINS BINU. ALL RIGHTS RESERVED.</span>
+                  </div>
+
+                  {/* Navigation Columns */}
+                  <div className="flex flex-col md:flex-row gap-16 lg:gap-24">
+
+                    {/* Quick Links */}
+                    <div className="flex flex-col gap-6">
+                      <span className="text-[11px] font-black text-[#0c0a28] uppercase tracking-widest">Quick Links</span>
+                      <div className="flex flex-col gap-3">
+                        {['Home', 'Projects', 'About', 'Arsenal', 'Contact'].map(l => (
+                          <NavLink
+                            key={l}
+                            to={l === 'Home' ? '/' : `/${l.toLowerCase()}`}
+                            onMouseEnter={() => {
+                              // Prefetch lazy component on hover
+                              const path = l.toLowerCase();
+                              if (path === 'about') import('./pages/About');
+                              if (path === 'arsenal') import('./pages/Skills');
+                              if (path === 'projects') import('./pages/Projects');
+                            }}
+                            className="text-[10px] text-gray-400 hover:text-[#6366f1] transition-colors font-bold uppercase tracking-widest"
+                          >
+                            {l}
+                          </NavLink>
+                        ))}
+
+                      </div>
+                    </div>
+
+                    {/* Social Connect */}
+                    <div className="flex flex-col gap-6">
+                      <span className="text-[11px] font-black text-[#0c0a28] uppercase tracking-widest">Let's Connect</span>
+                      <p className="text-[10px] text-gray-400 font-bold uppercase leading-relaxed max-w-[150px]">
+                        Let's build something<br />meaningful together.
+                      </p>
+                      <div className="flex gap-4">
+                        {[Github, Linkedin, Mail].map((Icon, i) => (
+                          <motion.a
+                            key={i}
+                            href="#"
+                            whileHover={{ y: -4, scale: 1.1 }}
+                            className="w-11 h-11 rounded-full bg-gray-50 flex items-center justify-center text-gray-400 hover:bg-white hover:text-[#6366f1] hover:shadow-xl hover:shadow-gray-100 transition-all border border-gray-100/50"
+                          >
+                            <Icon size={18} />
+                          </motion.a>
+                        ))}
+                      </div>
+                    </div>
+
+                  </div>
+
+                  {/* Newsletter Section */}
+                  <div className="bg-gray-50/50 p-10 rounded-[40px] border border-gray-100/50 flex flex-col gap-6 max-w-md w-full">
+                    <div className="flex flex-col gap-2">
+                      <span className="text-[11px] font-black text-[#0c0a28] uppercase tracking-widest">Stay in the Loop</span>
+                      <p className="text-[10px] text-gray-400 font-bold uppercase leading-relaxed">
+                        Get updates on my projects and thoughts.
+                      </p>
+                    </div>
+                    <div className="flex gap-3 items-center">
+                      <input
+                        type="email"
+                        placeholder="Enter your email"
+                        className="bg-white flex-1 px-6 py-4 rounded-2xl text-[10px] text-[#0c0a28] outline-none border border-gray-100 focus:border-indigo-200 transition-all font-bold placeholder:text-gray-300 shadow-sm"
+                      />
+                      <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        className="bg-gradient-to-r from-[#8b5cf6] to-[#6366f1] text-white px-8 py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-xl shadow-indigo-100 transition-all"
+                      >
+                        Subscribe
+                      </motion.button>
+                    </div>
+                  </div>
+
+                </div>
+              </footer>
+              <AIChatbot />
+              <MusicPlayer />
+              <DevTerminal />
+            </>
+          )}
+        </div>
+      </Router>
+    </MusicProvider>
   );
 }
-
-
